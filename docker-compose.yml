@@ -1,0 +1,20 @@
+services:
+  esp-app:
+    image: ghcr.io/jfortgithub/esp-app:latest
+    # build: .   # ← раскомментируйте, если хотите собирать локально
+    container_name: esp-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/data
+    environment:
+      - NODE_ENV=production
+      - DB_PATH=/data/esp.db
+      - JWT_SECRET=${JWT_SECRET:-change-me-in-production}
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
