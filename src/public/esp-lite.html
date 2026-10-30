@@ -2,59 +2,125 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Нормативы ЭСП — Lite (серверная версия)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Нормативы ЭСПЦ — Lite V5.0</title>
+<meta name="author" content="ЭСПЦ">
+<meta name="copyright" content="© 2024–2026 ЭСПЦ. Все права защищены.">
+<meta name="license" content="ESP-PRO-2026-0001">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#111827">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon-192.png">
 <style>
-:root{--bg:#111827;--panel:#1f2937;--panel2:#374151;--border:#374151;--border-soft:rgba(55,65,81,.6);--border-hi:#4b5563;--text:#e5e7eb;--muted:#9ca3af;--dim:#6b7280;--accent:#2563eb;--accent-h:#3b82f6;--green:#16a34a;--red:#dc2626;--yellow:#eab308;--purple:#a855f7;--cyan:#06b6d4;--orange:#f97316}
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Inter',sans-serif;background:#111827;color:var(--text)}
-.login-screen{position:fixed;inset:0;z-index:2000;background:radial-gradient(ellipse at 30% 20%,rgba(37,99,235,.18),transparent 55%),radial-gradient(ellipse at 70% 80%,rgba(168,85,247,.14),transparent 55%),#111827;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s}
+:root{
+  --bg:#111827;--panel:#1f2937;--panel2:#374151;
+  --border:#374151;--border-soft:rgba(55,65,81,.6);--border-hi:#4b5563;
+  --text:#e5e7eb;--muted:#9ca3af;--dim:#6b7280;
+  --accent:#2563eb;--accent-h:#3b82f6;
+  --green:#16a34a;--red:#dc2626;--yellow:#eab308;--purple:#a855f7;--cyan:#06b6d4;--orange:#f97316;
+  --vh:1vh;
+  --sat:0px;--sab:0px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:calc(var(--vh,1vh) * 100);overflow:hidden}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Inter',sans-serif;
+  background:#111827;color:var(--text);
+  padding-top:var(--sat);padding-bottom:var(--sab);
+  -webkit-text-size-adjust:100%;
+}
+button,.btn,.nav-item{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,select,textarea{-webkit-appearance:none;appearance:none}
+
+/* ═══ LOGIN ═══ */
+.login-screen{
+  position:fixed;inset:0;z-index:2000;
+  background:radial-gradient(ellipse at 30% 20%,rgba(37,99,235,.18),transparent 55%),
+             radial-gradient(ellipse at 70% 80%,rgba(168,85,247,.14),transparent 55%),
+             #111827;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  padding-top:calc(20px + var(--sat));padding-bottom:calc(20px + var(--sab));
+  animation:fadeIn .3s;overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.login-box{background:#1f2937;border:1px solid var(--border-hi);border-radius:20px;padding:36px 32px;width:100%;max-width:420px;box-shadow:0 24px 60px rgba(0,0,0,.6);animation:slideUp .4s cubic-bezier(.16,1,.3,1)}
+.login-box{
+  background:#1f2937;border:1px solid var(--border-hi);border-radius:20px;
+  padding:36px 32px;width:100%;max-width:420px;
+  box-shadow:0 24px 60px rgba(0,0,0,.6);
+  animation:slideUp .4s cubic-bezier(.16,1,.3,1);
+}
 @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.login-logo{width:72px;height:72px;border-radius:18px;margin:0 auto 18px;background:linear-gradient(135deg,#2563eb,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 10px 32px rgba(37,99,235,.45)}
+.login-logo{
+  width:72px;height:72px;border-radius:18px;margin:0 auto 18px;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+  display:flex;align-items:center;justify-content:center;font-size:36px;
+  box-shadow:0 10px 32px rgba(37,99,235,.45);
+}
 .login-box h2{text-align:center;color:#fff;font-size:22px;font-weight:800;margin-bottom:6px}
 .login-box .sub{text-align:center;color:var(--muted);font-size:12.5px;margin-bottom:22px;letter-spacing:.5px;text-transform:uppercase}
 .login-box .sub b{color:#93c5fd}
-.login-field{margin-bottom:14px}
+.login-field{margin-bottom:14px;position:relative}
 .login-field label{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:600;margin-bottom:6px}
-.login-field input{width:100%;background:#111827;border:1px solid #4b5563;border-radius:10px;padding:11px 14px;color:#fff;font-size:14px;font-family:inherit;transition:border-color .15s}
+.login-field input{
+  width:100%;background:#111827;border:1px solid #4b5563;border-radius:10px;
+  padding:11px 14px;color:#fff;font-size:16px;font-family:inherit;
+  transition:border-color .15s;
+}
 .login-field input:focus{outline:none;border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.15)}
-.login-btn{width:100%;padding:12px;border-radius:10px;border:none;cursor:pointer;background:linear-gradient(135deg,#2563eb,#4f46e5);color:#fff;font-size:14px;font-weight:700;font-family:inherit;margin-top:8px;transition:all .2s}
-.login-btn:hover{background:linear-gradient(135deg,#1d4ed8,#4338ca);transform:translateY(-1px)}
-.login-btn:disabled{opacity:.6;cursor:wait}
-.login-error{background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.4);color:#fca5a5;padding:10px 14px;border-radius:10px;font-size:12.5px;margin-bottom:14px;display:none}
+.login-btn{
+  width:100%;padding:13px;border-radius:10px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,#2563eb,#4f46e5);color:#fff;
+  font-size:15px;font-weight:700;font-family:inherit;margin-top:8px;
+  transition:all .2s;
+}
+.login-btn:active{transform:scale(.98)}
+.login-error{
+  background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.4);
+  color:#fca5a5;padding:10px 14px;border-radius:10px;font-size:12.5px;
+  margin-bottom:14px;display:none;
+}
 .login-error.show{display:block;animation:shake .3s}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.login-hint{margin-top:20px;padding-top:18px;border-top:1px solid var(--border);font-size:11.5px;color:var(--dim);text-align:center;line-height:1.7}
+.login-hint{
+  margin-top:20px;padding-top:18px;border-top:1px solid var(--border);
+  font-size:11.5px;color:var(--dim);text-align:center;line-height:1.7;
+}
 .login-accounts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:10px}
-.login-account{background:#111827;border:1px solid var(--border);border-radius:8px;padding:8px 6px;text-align:center;cursor:pointer;transition:all .15s}
-.login-account:hover{border-color:var(--accent-h);background:#1a2233}
+.login-account{
+  background:#111827;border:1px solid var(--border);border-radius:8px;
+  padding:8px 6px;text-align:center;cursor:pointer;transition:all .15s;
+}
+.login-account:active{border-color:var(--accent-h);background:#1a2233}
 .login-account .role{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
 .login-account .login-name{font-family:monospace;font-size:11.5px;color:#93c5fd;margin-top:2px}
-.app{display:grid;grid-template-columns:290px 1fr;height:100vh;overflow:hidden}
-.app.hidden{display:none}
+
+/* ═══ APP ═══ */
+.app{display:grid;grid-template-columns:290px 1fr;height:100vh;height:100dvh;height:calc(var(--vh,1vh) * 100);min-height:100vh;min-height:100dvh;overflow:hidden}
+.app.hidden{display:none !important}
 .sidebar{background:#1f2937;border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
 .brand{padding:20px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#1e3a8a,#312e81,#581c87)}
-.brand-icon{width:44px;height:44px;border-radius:12px;flex-shrink:0;background:#2563eb;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff}
+.brand-icon{width:44px;height:44px;border-radius:12px;flex-shrink:0;background:#2563eb;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;box-shadow:0 6px 18px rgba(37,99,235,.4)}
 .brand-text h1{font-size:14px;font-weight:700;color:#fff;line-height:1.2}
 .brand-text p{font-size:11px;color:#93c5fd;margin-top:2px}
-.nav-scroll{flex:1;overflow-y:auto;padding:12px 10px}
+.nav-scroll{flex:1;overflow-y:auto;padding:12px 10px;-webkit-overflow-scrolling:touch}
 .nav-scroll::-webkit-scrollbar{width:6px}
 .nav-scroll::-webkit-scrollbar-thumb{background:#4b5563;border-radius:3px}
 .nav-section{margin-bottom:16px}
 .nav-section-title{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1.2px;padding:6px 10px;font-weight:600}
-.nav-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:10px;cursor:pointer;color:#cbd5e1;font-size:13.5px;font-weight:500;transition:all .18s;margin-bottom:2px;border:1px solid transparent}
-.nav-item:hover{background:#334155;color:#fff}
-.nav-item.active{background:#2563eb;color:#fff}
+.nav-item{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:10px;cursor:pointer;color:#cbd5e1;font-size:13.5px;font-weight:500;transition:all .18s;margin-bottom:2px;border:1px solid transparent}
+.nav-item:active{background:#334155;color:#fff}
+.nav-item.active{background:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.35)}
 .nav-item .ico{font-size:16px;width:20px;text-align:center;flex-shrink:0}
 .nav-item .badge-n{margin-left:auto;background:rgba(37,99,235,.25);color:#93c5fd;font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700}
 .nav-item.active .badge-n{background:rgba(255,255,255,.2);color:#fff}
 .nav-item.admin-only{opacity:.5;pointer-events:none}
-.sidebar-footer{padding:12px 14px;border-top:1px solid var(--border);font-size:10.5px;color:var(--dim);text-align:center}
-.main{display:flex;flex-direction:column;overflow:hidden;position:relative;background:#111827}
-.topbar{padding:12px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:#1f2937;z-index:10;flex-wrap:wrap;gap:10px}
+.sidebar-footer{padding:12px 14px;border-top:1px solid var(--border);font-size:10.5px;color:var(--dim);text-align:center;padding-bottom:calc(12px + var(--sab))}
+#esp-wm{display:block;font-size:9.5px;opacity:.5;margin-top:6px;font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:.5px;user-select:none;word-break:break-all}
+
+.main{display:flex;flex-direction:column;overflow:hidden;position:relative;background:#111827;height:100%}
+.topbar{padding:12px 24px;padding-top:calc(12px + var(--sat));border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:#1f2937;z-index:10;flex-wrap:wrap;gap:10px}
 .topbar-title{display:flex;align-items:center;gap:10px;color:#fff;font-weight:600;font-size:15px;flex:1;min-width:200px}
 .topbar-title .dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 10px #22c55e;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
@@ -63,30 +129,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Inter',sans
 .user-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff}
 .user-badge .uname{color:#fff;font-weight:600}
 .user-badge .urole{color:var(--muted);font-size:10.5px;text-transform:uppercase;letter-spacing:.4px}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:9px;border:1px solid transparent;font-size:12.5px;font-weight:600;cursor:pointer;transition:all .18s;background:#374151;color:#cbd5e1;font-family:inherit;white-space:nowrap}
-.btn:hover{background:#4b5563;color:#fff}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:9px;border:1px solid transparent;font-size:12.5px;font-weight:600;cursor:pointer;transition:all .18s;background:#374151;color:#cbd5e1;font-family:inherit;white-space:nowrap;min-height:36px}
+.btn:active{background:#4b5563;color:#fff;transform:scale(.97)}
 .btn-primary{background:#2563eb;color:#fff}
 .btn-success{background:#16a34a;color:#fff}
 .btn-ghost{background:transparent;border-color:var(--border);color:var(--muted)}
-.btn-ghost:hover{background:#374151;color:#fff}
 .btn-danger{background:rgba(220,38,38,.15);color:#fca5a5;border-color:rgba(220,38,38,.35)}
-.btn-xs{padding:5px 10px;font-size:11.5px;border-radius:7px}
-.btn-ico{padding:8px;width:36px;justify-content:center}
-.btn:disabled{opacity:.4;cursor:not-allowed}
-.chat{flex:1;overflow-y:auto;padding:24px 24px 40px;display:flex;flex-direction:column;gap:14px}
+.btn-xs{padding:6px 10px;font-size:11.5px;border-radius:7px;min-height:30px}
+.btn-ico{padding:8px;width:38px;min-height:38px;justify-content:center}
+
+.chat{flex:1;overflow-y:auto;padding:24px 24px 40px;padding-bottom:calc(40px + var(--sab));display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
 .chat::-webkit-scrollbar{width:8px}
 .chat::-webkit-scrollbar-thumb{background:#4b5563;border-radius:4px}
 .msg{max-width:100%;display:flex;animation:slideIn .35s}
 @keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.bubble{background:#1f2937;border:1px solid var(--border);border-radius:14px;padding:16px 20px;font-size:14px;line-height:1.6;color:var(--text);box-shadow:0 4px 16px rgba(0,0,0,.25);width:100%;max-width:1000px}
+.bubble{background:#1f2937;border:1px solid var(--border);border-radius:14px;padding:16px 20px;font-size:14px;line-height:1.6;color:var(--text);box-shadow:0 4px 16px rgba(0,0,0,.25);width:100%;max-width:1000px;word-wrap:break-word;overflow-wrap:break-word}
 .bubble-title{color:#fff;font-weight:700;font-size:15px;margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .bubble-sub{color:var(--muted);font-size:12.5px;margin-bottom:10px}
+.bubble p{margin-bottom:8px}
 .bubble ul{list-style:none;margin:6px 0}
 .bubble li{padding:3px 0;font-size:13.5px;display:flex;gap:8px}
 .bubble li::before{content:'▸';color:#60a5fa;flex-shrink:0}
-.bubble code{font-family:'JetBrains Mono',monospace;background:#111827;padding:2px 6px;border-radius:4px;font-size:12.5px;color:#93c5fd}
+.bubble code{font-family:'JetBrains Mono',monospace;background:#111827;padding:2px 6px;border-radius:4px;font-size:12.5px;color:#93c5fd;word-break:break-all}
 .bubble .hl{color:#93c5fd;font-weight:600}
-.tm-code{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:rgba(168,85,247,.15);color:#d8b4fe;padding:3px 8px;border-radius:6px;border:1px solid rgba(168,85,247,.3);display:inline-block}
+.tm-code{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:rgba(168,85,247,.15);color:#d8b4fe;padding:3px 8px;border-radius:6px;border:1px solid rgba(168,85,247,.3);display:inline-block;word-break:break-all}
+
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .chip{font-size:11.5px;padding:4px 10px;border-radius:20px;font-weight:600;border:1px solid}
 .chip-blue{color:#93c5fd;border-color:rgba(59,130,246,.4);background:rgba(37,99,235,.15)}
@@ -94,26 +162,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Inter',sans
 .chip-yellow{color:#fde047;border-color:rgba(234,179,8,.4);background:rgba(202,138,4,.15)}
 .chip-red{color:#fca5a5;border-color:rgba(239,68,68,.4);background:rgba(220,38,38,.15)}
 .chip-purple{color:#d8b4fe;border-color:rgba(168,85,247,.4);background:rgba(147,51,234,.15)}
+.chip-orange{color:#fdba74;border-color:rgba(249,115,22,.4);background:rgba(234,88,12,.15)}
 .chip-cyan{color:#67e8f9;border-color:rgba(6,182,212,.4);background:rgba(8,145,178,.15)}
+
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
 .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
 @media(max-width:760px){.grid2,.grid3,.grid4{grid-template-columns:1fr}}
 .tile{background:#111827;border:1px solid var(--border);border-radius:10px;padding:12px 14px;transition:all .2s}
+.tile:active{border-color:var(--border-hi);transform:translateY(-1px)}
 .tile-h{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.8px;font-weight:600;margin-bottom:6px}
 .tile-v{font-size:22px;font-weight:800;color:#fff}
 .tile-v.blue{color:#60a5fa}.tile-v.green{color:#4ade80}.tile-v.purple{color:#c084fc}
 .tile-v.yellow{color:#facc15}.tile-v.red{color:#f87171}.tile-v.orange{color:#fb923c}
 .tile-d{font-size:11.5px;color:var(--muted);margin-top:4px}
+
 .norms-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:#111827;border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:10px}
-.search-inp{flex:1;min-width:200px;background:#111827;border:1px solid #4b5563;border-radius:9px;padding:9px 14px;color:#fff;font-size:13.5px;font-family:inherit}
+.search-inp{flex:1;min-width:200px;background:#111827;border:1px solid #4b5563;border-radius:9px;padding:10px 14px;color:#fff;font-size:16px;font-family:inherit}
 .search-inp:focus{outline:none;border-color:#3b82f6}
-.sel{background:#111827;border:1px solid #4b5563;border-radius:8px;padding:8px 12px;color:#cbd5e1;font-size:12.5px;font-family:inherit;cursor:pointer}
+.sel{background:#111827;border:1px solid #4b5563;border-radius:8px;padding:9px 12px;color:#cbd5e1;font-size:13px;font-family:inherit;cursor:pointer;min-height:38px}
 .norm-row{background:#111827;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:8px;transition:all .2s}
-.norm-row:hover{border-color:var(--border-hi);background:#1a2233}
+.norm-row:active{border-color:var(--border-hi);background:#1a2233}
 .norm-row-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
 .norm-row-info{flex:1;min-width:200px}
-.norm-row-code{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#93c5fd;font-weight:600}
+.norm-row-code{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#93c5fd;font-weight:600;word-break:break-all}
 .norm-row-name{color:#fff;font-size:13.5px;font-weight:600;margin-top:3px;line-height:1.35}
 .norm-row-eq{color:var(--muted);font-size:11.5px;margin-top:3px}
 .norm-row-tm{margin-top:5px}
@@ -122,6 +194,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Inter',sans
 .norm-stat-v{font-size:18px;font-weight:800;color:#fff;line-height:1}
 .norm-stat-l{font-size:10px;color:var(--dim);margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
 .norm-row-actions{display:flex;gap:6px;flex-shrink:0;align-items:center}
+
 .calc-wrap{display:grid;grid-template-columns:1fr 340px;gap:16px}
 @media(max-width:900px){.calc-wrap{grid-template-columns:1fr}}
 .calc-list{background:#111827;border:1px solid var(--border);border-radius:12px;overflow:hidden}
@@ -129,37 +202,43 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Inter',sans
 .calc-item:last-child{border-bottom:none}
 .calc-item-name{flex:1;min-width:0;color:var(--text);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .calc-item-meta{font-size:11px;color:var(--dim)}
-.qty-btn{width:24px;height:24px;border-radius:6px;background:#374151;color:#fff;border:none;cursor:pointer;font-size:14px;font-weight:700;font-family:inherit;display:flex;align-items:center;justify-content:center}
-.qty-btn:hover{background:#2563eb}
-.qty-val{color:#fff;font-weight:700;width:28px;text-align:center;font-size:13.5px}
-.calc-del{background:none;border:none;color:var(--dim);cursor:pointer;padding:4px;font-size:14px}
-.calc-del:hover{color:#f87171}
+.qty-btn{width:32px;height:32px;border-radius:7px;background:#374151;color:#fff;border:none;cursor:pointer;font-size:16px;font-weight:700;font-family:inherit;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.qty-btn:active{background:#2563eb;transform:scale(.92)}
+.qty-val{color:#fff;font-weight:700;width:32px;text-align:center;font-size:14px}
+.calc-del{background:none;border:none;color:var(--dim);cursor:pointer;padding:6px;font-size:16px;transition:color .15s;min-height:32px;min-width:32px}
+.calc-del:active{color:#f87171}
 .calc-summary{background:#111827;padding:14px;border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
 .calc-sidebar{background:#111827;border:1px solid var(--border);border-radius:12px;padding:16px;position:sticky;top:10px;height:fit-content}
+
 .stat-bar{margin-bottom:10px}
 .stat-bar-h{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}
 .stat-bar-name{color:var(--muted)}
 .stat-bar-v{color:#fff;font-weight:700}
 .stat-bar-track{height:8px;background:#374151;border-radius:4px;overflow:hidden}
 .stat-bar-fill{height:100%;border-radius:4px;transition:width .6s}
-.tech-card{background:#111827;border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px}
+
+.tech-card{background:#111827;border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px;transition:all .2s}
+.tech-card:active{border-color:var(--border-hi);transform:translateY(-1px)}
 .tech-card-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px}
 .tech-card-num{font-family:'JetBrains Mono',monospace;color:#93c5fd;font-size:12.5px;font-weight:700}
 .tech-card-title{color:#fff;font-size:15px;font-weight:700;margin-top:4px}
 .tech-card-meta{color:var(--muted);font-size:12px;margin-top:4px}
-.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;animation:fadeIn .2s}
-.modal{background:#1f2937;border:1px solid var(--border-hi);border-radius:16px;max-width:820px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.6)}
+
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;padding-top:calc(20px + var(--sat));padding-bottom:calc(20px + var(--sab));animation:fadeIn .2s;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.modal{background:#1f2937;border:1px solid var(--border-hi);border-radius:16px;max-width:820px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.6);-webkit-overflow-scrolling:touch}
 .modal::-webkit-scrollbar{width:8px}
 .modal::-webkit-scrollbar-thumb{background:#4b5563;border-radius:4px}
 .modal-head{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#1f2937;z-index:5}
 .modal-title{color:#fff;font-size:16px;font-weight:700}
-.modal-close{background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;padding:4px}
+.modal-close{background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;line-height:1;padding:6px;min-height:36px;min-width:36px}
+.modal-close:active{color:#fff}
 .modal-body{padding:20px 22px}
+
 .form-group{margin-bottom:14px}
 .form-lbl{display:block;font-size:11.5px;color:var(--muted);margin-bottom:5px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
-.form-inp,.form-sel,.form-ta{width:100%;background:#111827;border:1px solid #4b5563;border-radius:9px;padding:9px 12px;color:#fff;font-size:13.5px;font-family:inherit}
+.form-inp,.form-sel,.form-ta{width:100%;background:#111827;border:1px solid #4b5563;border-radius:9px;padding:10px 12px;color:#fff;font-size:16px;font-family:inherit}
 .form-inp:focus,.form-sel:focus,.form-ta:focus{outline:none;border-color:#3b82f6}
-.form-inp.err{border-color:#dc2626}
+.form-inp.err,.form-sel.err{border-color:#dc2626}
 .form-inp.ok{border-color:#16a34a}
 .form-inp.tm{font-family:'JetBrains Mono',monospace;letter-spacing:.5px}
 .form-ta{resize:vertical;min-height:70px}
@@ -169,86 +248,202 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Inter',sans
 .form-hint{font-size:11px;color:var(--dim);margin-top:4px}
 .form-hint.err{color:#fca5a5}
 .form-hint.ok{color:#86efac}
+
 .warn-banner{background:rgba(234,179,8,.12);border:1px solid rgba(234,179,8,.4);color:#fde047;padding:10px 14px;border-radius:10px;font-size:12.5px;margin-bottom:14px;display:flex;gap:8px;align-items:flex-start}
 .warn-banner.ok{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.4);color:#86efac}
 .warn-banner.err{background:rgba(220,38,38,.12);border-color:rgba(220,38,38,.4);color:#fca5a5}
-.warn-banner.info{background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.4);color:#93c5fd}
+
 .empty{text-align:center;padding:40px 20px;color:var(--dim);background:#111827;border:1px dashed #4b5563;border-radius:12px}
 .empty-ico{font-size:40px;margin-bottom:10px;opacity:.6}
 .badge-mini{font-size:10.5px;padding:2px 7px;border-radius:5px;font-weight:700;background:#374151;color:var(--muted)}
+.badge-version{font-size:10px;padding:3px 8px;border-radius:6px;background:rgba(251,146,60,.2);color:#fdba74;border:1px solid rgba(251,146,60,.4);font-weight:700;letter-spacing:.5px;text-transform:uppercase}
 .badge-role{font-size:10px;padding:3px 8px;border-radius:6px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
 .badge-role.admin{background:rgba(220,38,38,.2);color:#fca5a5;border:1px solid rgba(220,38,38,.4)}
 .badge-role.engineer{background:rgba(37,99,235,.2);color:#93c5fd;border:1px solid rgba(37,99,235,.4)}
 .badge-role.user{background:rgba(34,197,94,.2);color:#86efac;border:1px solid rgba(34,197,94,.4)}
 .mob-toggle{display:none}
-@media(max-width:900px){
-  .app{grid-template-columns:0 1fr}
-  .sidebar{position:fixed;left:0;top:0;bottom:0;width:290px;z-index:200;transform:translateX(-100%);transition:transform .3s}
-  .sidebar.open{transform:translateX(0)}
-  .mob-toggle{display:inline-flex}
-  .chat{padding:16px}
-}
-.full-toast{position:fixed;bottom:24px;right:24px;z-index:5000;background:linear-gradient(135deg,#2563eb,#4f46e5);color:#fff;padding:14px 20px;border-radius:12px;box-shadow:0 12px 32px rgba(37,99,235,.5);font-size:13px;max-width:340px;display:flex;gap:12px;align-items:flex-start}
+
+.full-toast{position:fixed;bottom:24px;right:24px;z-index:5000;background:linear-gradient(135deg,#2563eb,#4f46e5);color:#fff;padding:14px 20px;border-radius:12px;box-shadow:0 12px 32px rgba(37,99,235,.5);font-size:13px;max-width:340px;display:flex;gap:12px;align-items:flex-start;animation:slideIn .4s}
 .full-toast .toast-icon{font-size:22px;flex-shrink:0}
 .full-toast .toast-title{font-weight:700;margin-bottom:4px}
 .full-toast .toast-desc{opacity:.9;font-size:12px;line-height:1.4}
-.full-toast .toast-close{position:absolute;top:6px;right:8px;background:none;border:none;color:rgba(255,255,255,.7);font-size:18px;cursor:pointer;padding:2px}
+.full-toast .toast-close{position:absolute;top:6px;right:8px;background:none;border:none;color:rgba(255,255,255,.7);font-size:18px;cursor:pointer;line-height:1;padding:2px}
+
+@media(max-width:900px){
+  .app{grid-template-columns:0 1fr}
+  .main{grid-column:2}
+  .sidebar{position:fixed;left:0;top:0;bottom:0;width:280px;z-index:200;transform:translateX(-100%);transition:transform .3s;padding-top:var(--sat);padding-bottom:var(--sab)}
+  .sidebar.open{transform:translateX(0);box-shadow:4px 0 24px rgba(0,0,0,.6)}
+  .mob-toggle{display:inline-flex}
+  .chat{padding:16px;padding-bottom:calc(24px + var(--sab))}
+}
+@media(max-width:768px){
+  .login-box{padding:24px 20px;max-width:100%;border-radius:16px}
+  .login-logo{width:56px;height:56px;font-size:28px}
+  .login-box h2{font-size:19px}
+  .topbar{padding:10px 14px;padding-top:calc(10px + var(--sat));gap:8px}
+  .topbar-title{font-size:13.5px;min-width:0;flex:1}
+  .user-badge{padding:5px 8px 5px 6px;font-size:11px}
+  .user-avatar{width:22px;height:22px;font-size:10px}
+  .btn{padding:8px 11px;font-size:12px;min-height:38px}
+  .btn-xs{padding:6px 10px;font-size:11.5px;min-height:34px}
+  .btn-ico{padding:8px;width:40px;min-height:40px}
+  .chat{padding:12px 10px 24px;padding-bottom:calc(24px + var(--sab))}
+  .bubble{padding:12px 14px;border-radius:11px}
+  .bubble-title{font-size:14px}
+  .grid2,.grid3,.grid4{grid-template-columns:1fr !important}
+  .calc-wrap{grid-template-columns:1fr}
+  .calc-sidebar{position:static}
+  .norms-toolbar{padding:10px;gap:6px}
+  .search-inp{min-width:0;flex:1 1 100%}
+  .sel{font-size:12px;padding:8px 10px;min-height:40px}
+  .norm-row{padding:11px 12px}
+  .norm-row-head{gap:8px}
+  .norm-row-stats{gap:10px;width:100%;justify-content:flex-start}
+  .norm-stat-v{font-size:16px}
+  .norm-row-actions{width:100%;margin-top:4px}
+  .norm-row-actions .btn{width:100%;justify-content:center}
+  .modal{max-width:100%;max-height:95vh;border-radius:12px}
+  .modal-body{padding:14px}
+  .form-row{grid-template-columns:1fr}
+  .full-toast{left:12px;right:12px;bottom:12px;bottom:calc(12px + var(--sab));max-width:none}
+  .tile{padding:10px 12px}
+  .tile-v{font-size:19px}
+  .tech-card{padding:12px}
+  .tech-card-title{font-size:14px}
+  .bubble li{font-size:12.5px}
+  .bubble code{font-size:11.5px}
+  .tm-code{font-size:10.5px}
+  .calc-item{padding:9px 11px}
+  .qty-btn{width:34px;height:34px}
+  .qty-val{width:34px;font-size:15px}
+}
+@media(max-width:480px){
+  .login-box{padding:20px 16px;border-radius:14px}
+  .login-accounts{grid-template-columns:1fr 1fr}
+  .chat{padding:10px 8px 20px;padding-bottom:calc(20px + var(--sab))}
+  .bubble{padding:10px 12px}
+  .norm-row-code{font-size:11px}
+  .norm-row-name{font-size:12.5px}
+  .norm-row-eq{font-size:11px}
+  .topbar-title{font-size:12.5px}
+}
+@media(max-width:768px) and (orientation:landscape){
+  .modal{max-height:100vh}
+  .login-box{margin-top:0}
+}
+/* ═══ ФИКС АВТОЗАПОЛНЕНИЯ (ПК) ═══ */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px #111827 inset !important;
+    -webkit-text-fill-color: #fff !important;
+    transition: background-color 5000s ease-in-out 0s;
+}	
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- ESP GUARD -->
+<script>
+(function(global){
+  'use strict';
+  const PRODUCT = 'ESP Lite V5.0';
+  const OWNER = 'ЭСПЦ';
+  const LICENSE_ID = 'ESP-PRO-2026-0001';
+  const COPYRIGHT = '© 2024–2026 ЭСПЦ · Все права защищены';
+  const ALLOWED_HOSTS = ['', 'localhost', '127.0.0.1', 'jfortgithub.github.io'];
+  const Guard = {
+    product: PRODUCT, licenseId: LICENSE_ID, watermark: '',
+    checkHost(){
+      const host = location.hostname || '';
+      if(ALLOWED_HOSTS.length === 0) return true;
+      if(host === '' && ALLOWED_HOSTS.includes('')) return true;
+      return ALLOWED_HOSTS.includes(host);
+    },
+    makeWatermark(){
+      const parts = [navigator.userAgent.length, screen.width, screen.height, new Date().getTimezoneOffset()].join('|');
+      let h = 2166136261 >>> 0;
+      for(let i = 0; i < parts.length; i++){ h ^= parts.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+      return 'ESP-WM-' + h.toString(16).toUpperCase().padStart(8, '0');
+    },
+    init(){
+      this.watermark = this.makeWatermark();
+      if(!this.checkHost()){
+        document.body.innerHTML = '<div style="padding:40px;font-family:sans-serif;text-align:center;color:#eee;background:#0f1420;min-height:100vh"><h2>⚠️ Недопустимый домен</h2><p>Хост <code>' + (location.hostname||'file') + '</code> не входит в список разрешённых.</p></div>';
+        throw new Error('ESP GUARD: host not allowed');
+      }
+    }
+  };
+  global.ESP_GUARD = Guard;
+  Guard.init();
+})(window);
+
+// Mobile patch
+(function(global){
+  function setVH(){
+    document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
+  }
+  setVH();
+  window.addEventListener('resize', setVH);
+  window.addEventListener('orientationchange', () => setTimeout(setVH, 200));
+  try{
+    document.documentElement.style.setProperty('--sat', 'env(safe-area-inset-top, 0px)');
+    document.documentElement.style.setProperty('--sab', 'env(safe-area-inset-bottom, 0px)');
+  }catch(e){}
+})(window);
+
+// Safe storage wrapper
+(function(global){
+  const memStore = new Map();
+  global.__ESP_safeLS = {
+    getItem(k){ try{ return localStorage.getItem(k); }catch(e){ return memStore.has(k) ? memStore.get(k) : null; } },
+    setItem(k, v){ try{ localStorage.setItem(k, v); }catch(e){ memStore.set(k, v); } },
+    removeItem(k){ try{ localStorage.removeItem(k); }catch(e){ memStore.delete(k); } }
+  };
+  global.__ESP_safeSS = {
+    getItem(k){ try{ return sessionStorage.getItem(k); }catch(e){ return memStore.has('__s_' + k) ? memStore.get('__s_' + k) : null; } },
+    setItem(k, v){ try{ sessionStorage.setItem(k, v); }catch(e){ memStore.set('__s_' + k, v); } },
+    removeItem(k){ try{ sessionStorage.removeItem(k); }catch(e){ memStore.delete('__s_' + k); } }
+  };
+})(window);
+</script>
+
 <div class="login-screen" id="loginScreen">
   <form class="login-box" id="loginForm" autocomplete="off">
     <div class="login-logo">⚙️</div>
-    <h2>Нормативы ЭСП</h2>
-    <div class="sub">Lite · Серверная версия</div>
+    <h2>Нормативы ЭСПЦ</h2>
+    <div class="sub">Ограниченная версия · <b>Lite V5.0</b></div>
     <div class="login-error" id="loginError">Неверный логин или пароль</div>
-    <div class="login-field">
-      <label>Логин</label>
-      <input name="login" id="loginInput" placeholder="Введите логин" required autocomplete="username">
-    </div>
-    <div class="login-field">
-      <label>Пароль</label>
-      <input name="password" id="passwordInput" type="password" placeholder="Введите пароль" required autocomplete="current-password">
-    </div>
-    <button type="submit" class="login-btn" id="loginBtn">🔐 Войти в систему</button>
+    <div class="login-field"><label>Логин</label><input name="login" id="loginInput" placeholder="Введите логин" required autocomplete="username"></div>
+    <div class="login-field"><label>Пароль</label><input name="password" id="passwordInput" type="password" placeholder="Введите пароль" required autocomplete="current-password"></div>
+    <button type="submit" class="login-btn">🔐 Войти в систему</button>
     <div class="login-hint">
       Демо-доступы (нажмите для подстановки):
       <div class="login-accounts">
-        <div class="login-account" data-login="admin" data-pwd="admin123"><div class="role">Админ</div><div class="login-name">admin</div></div>
-        <div class="login-account" data-login="engineer" data-pwd="eng123"><div class="role">Инженер</div><div class="login-name">engineer</div></div>
-        <div class="login-account" data-login="user" data-pwd="user123"><div class="role">Польз.</div><div class="login-name">user</div></div>
+        <div class="login-account" onclick="document.getElementById('loginInput').value='admin';document.getElementById('passwordInput').value='admin123';document.getElementById('loginError').classList.remove('show');"><div class="role">Админ</div><div class="login-name">admin</div></div>
+        <div class="login-account" onclick="document.getElementById('loginInput').value='engineer';document.getElementById('passwordInput').value='eng123';document.getElementById('loginError').classList.remove('show');"><div class="role">Инженер</div><div class="login-name">engineer</div></div>
+        <div class="login-account" onclick="document.getElementById('loginInput').value='user';document.getElementById('passwordInput').value='user123';document.getElementById('loginError').classList.remove('show');"><div class="role">Польз.</div><div class="login-name">user</div></div>
       </div>
     </div>
   </form>
 </div>
 
-<!-- APP -->
 <div class="app hidden" id="app">
   <aside class="sidebar" id="sidebar">
-    <div class="brand">
-      <div class="brand-icon">⚙️</div>
-      <div class="brand-text">
-        <h1>Нормативы ЭСП</h1>
-        <p>Lite · Трудозатраты · Ремонт</p>
-      </div>
-    </div>
+    <div class="brand"><div class="brand-icon">⚙️</div><div class="brand-text"><h1>Нормативы ЭСПЦ</h1><p>Lite · Трудозатраты · Ремонт</p></div></div>
     <div class="nav-scroll" id="navScroll"></div>
-    <div class="sidebar-footer">ЭСП © 2024–2026 · v3.5 Lite</div>
+    <div class="sidebar-footer">ЭСПЦ © 2024–2026 · V5.0 Lite<div id="esp-wm"></div></div>
   </aside>
   <main class="main">
     <div class="topbar">
-      <div class="topbar-title">
-        <span class="dot"></span>
-        <span id="topbarTitle">Нормативы</span>
-        <span class="badge-role user" id="versionBadge">Lite</span>
-      </div>
+      <div class="topbar-title"><span class="dot"></span><span id="topbarTitle">Нормативы</span><span class="badge-version">Lite</span></div>
       <div class="topbar-actions">
         <button class="btn btn-ico mob-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
-        <button class="btn btn-ghost" onclick="switchToFull()" title="Перейти в расширенную версию">↪ Full</button>
         <div class="user-badge" id="userBadge"></div>
-        <button class="btn btn-ghost" onclick="doLogout()">⎋ Выход</button>
+        <button class="btn btn-ghost" onclick="switchToFull()" title="Перейти в расширенную версию">↪ Full</button>
+        <button class="btn btn-ghost" onclick="logout()">⎋ Выход</button>
       </div>
     </div>
     <div class="chat" id="chat"></div>
@@ -256,213 +451,328 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Inter',sans
 </div>
 
 <script>
-'use strict';
+const N_RAW = [
+['ups-001','УПС-ЛК-001','Замена ленты конвейера подачи ферросплавов','UPSMiF','mechanical','Ленточный конвейер','КЛС-800',24,4,'4-5 разряд',3,'federal','ФЕРп-2001 т.20','ФЕР',0.93,'СР',26,'Лебёдка,Ключи,Вулканизатор','Блокировка привода,СИЗ','Замена конвейерной ленты.',''],
+['ups-002','УПС-РЛ-002','Ремонт роликоопор конвейера','UPSMiF','mechanical','Ленточный конвейер','КЛС-800',12,2,'3-4 разряд',2,'gost','ГОСТ Р 56291-2014','ГОСТ',0.85,'ТР',11,'Съёмник,Ключи','Блокировка,СИЗ','Замена изношенных роликоопор.',''],
+['ups-003','УПС-РД-003','Ремонт редуктора привода конвейера','UPSMiF','mechanical','Редуктор','Ц2У-250',28,3,'4-5 разряд',3,'federal','ФЕРп-2001 т.01','ФЕР',0.90,'СР',30,'Съёмник,Ключи,Пресс','Блокировка привода,СИЗ','Замена подшипников и шестерён.',''],
+['ups-004','УПС-ВС-004','Замена весового дозатора','UPSMiF','mechanical','Весовой дозатор','ВД-500',20,3,'4 разряд',3,'industry','REC-SMS-2024','SMS group',0.84,'СР',22,'Кран-балка,Ключи,Калибратор','Блокировка,СИЗ','Замена дозатора ферросплавов.',''],
+['ups-005','УПС-БК-005','Ремонт бункера-накопителя','UPSMiF','mechanical','Бункер','БН-40',36,4,'4-5 разряд',4,'federal','ФЕРп-2001 т.20','ФЕР',0.91,'СР',34,'Сварочный аппарат,Ключи','Наряд-допуск,Работы на высоте','Ремонт корпуса бункера.',''],
+['ups-006','УПС-ЗТ-006','Замена затвора бункера','UPSMiF','mechanical','Затвор бункера','ЗБ-500',14,2,'3-4 разряд',2,'actual','ХРОН-2024-006','Хронометраж',0.86,'ТР',13,'Ключи,Лебёдка','Блокировка,СИЗ','Замена секторного затвора.',''],
+['ups-007','УПС-ВП-007','Ремонт вибропитателя','UPSMiF','mechanical','Вибропитатель','ВП-600',18,3,'4 разряд',3,'industry','REC-PRIM-2024','Primetals',0.82,'СР',20,'Ключи,Динамометр','Блокировка,СИЗ','Ремонт вибропривода и лотка.',''],
+['ups-008','УПС-ЭД-008','Замена электродвигателя конвейера','UPSMiF','electric','Электродвигатель','АИР180М4',10,2,'4 разряд',2,'federal','ФЕРп-2001 т.01','ФЕР',0.94,'ТР',9,'Кран-балка,Ключи,Мегаомметр','Отключение,Заземление','Демонтаж и монтаж электродвигателя.',''],
+['ups-009','УПС-МГ-009','Ремонт магнитного сепаратора','UPSMiF','mechanical','Магнитный сепаратор','СМ-100',22,3,'4-5 разряд',3,'industry','REC-DAN-2024','Danieli',0.83,'СР',24,'Ключи,Лебёдка','Блокировка,СИЗ','Ремонт магнитной системы.',''],
+['ups-010','УПС-ДР-010','Замена дробилки ферросплавов','UPSMiF','mechanical','Дробилка','ДЩ-400',40,4,'5 разряд',4,'federal','ФЕРп-2001 т.20','ФЕР',0.92,'КР',42,'Кран,Ключи,Сварочный','Наряд-допуск,СИЗ','Демонтаж старой дробилки.',''],
+['ups-011','УПС-ГЦ-011','Ремонт гидроцилиндра затвора','UPSMiF','hydraulic','Гидроцилиндр','ГЦ-125',16,2,'4-5 разряд',3,'federal','ФЕРп-2001 т.01','ФЕР',0.90,'СР',15,'Съёмник,Пресс','Сброс давления,СИЗ','Замена уплотнений гидроцилиндра.',''],
+['ups-012','УПС-КС-012','Ремонт кабельной сети участка','UPSMiF','electric','Кабельная сеть','КС-10кВ',32,3,'5 разряд',3,'safety','ФНП Электроустановки','ФНП',0.93,'ТР',34,'Испытательная,Ключи','Отключение,Заземление','Ремонт кабельных трасс.',''],
+['dsp-001','ДСП-Ф-001','Замена футеровки пода ДСП','DSP','mechanical','Электродуговая печь','ДСП-100',192,6,'5-6 разряд',5,'federal','ФЕРп-2001 т.18','ФЕР',0.95,'КР',185,'Лома,Кувалды,Сварочный,Резак','Наряд-допуск,СИЗ термозащитные','Полная замена магнезитовой футеровки.','1201-001-001-001-001-001-001'],
+['dsp-002','ДСП-СВ-002','Ремонт свода ДСП','DSP','mechanical','Электродуговая печь','ДСП-100',128,4,'5 разряд',4,'federal','ФЕРп-2001 т.18','ФЕР',0.92,'СР',135,'Подмости,Шаблоны,Кувалды','Наряд-допуск,Работы на высоте','Замена футеровки свода печи.','1201-001-001-001-001-001-002'],
+['dsp-003','ДСП-ЭД-003','Замена электрододержателей','DSP','mechanical','Электродуговая печь','ДСП-100',64,4,'4-5 разряд',3,'industry','REC-DAN-2024','Danieli',0.85,'СР',68,'Кран мостовой,Ключи','Отключение,Заземление','Демонтаж и монтаж электрододержателей.','1201-001-001-001-001-002-001'],
+['dsp-004','ДСП-МН-004','Ремонт механизма наклона','DSP','mechanical','Электродуговая печь','ДСП-100',96,3,'4-5 разряд',4,'actual','ХРОН-2024-001','Хронометраж НЛМК',0.88,'СР',92,'Гидродомкраты,Ключи,Нивелир','Блокировка,Наряд-допуск','Ремонт гидроцилиндров наклона.','1201-001-001-001-001-003-001'],
+['dsp-005','ДСП-ВП-005','Замена водоохлаждаемых панелей','DSP','mechanical','Электродуговая печь','ДСП-100',88,4,'5 разряд',4,'federal','ФЕРп-2001 т.18','ФЕР',0.91,'СР',84,'Кран,Ключи,Сварочный','Наряд-допуск,СИЗ','Замена панелей водоохлаждения.',''],
+['dsp-006','ДСП-ПР-006','Ремонт портала печи','DSP','mechanical','Электродуговая печь','ДСП-100',72,4,'5 разряд',4,'federal','ФЕРп-2001 т.18','ФЕР',0.89,'КР',78,'Кран,Сварочный,Ключи','Наряд-допуск,Работы на высоте','Ремонт металлоконструкций портала.',''],
+['dsp-007','ДСП-СК-007','Ремонт системы газоотсоса','DSP','mechanical','Система газоотсоса','СГО-ДСП',48,3,'4-5 разряд',3,'industry','REC-SMS-2024','SMS group',0.84,'СР',52,'Ключи,Лебёдка','Наряд-допуск,Вентиляция','Ремонт газоходов и заслонок.',''],
+['dsp-008','ДСП-ЭК-008','Ремонт электрокабеля печи','DSP','electric','Электрокабель','КГ-3х150',36,3,'5 разряд',3,'safety','ФНП Электроустановки','ФНП',0.92,'ТР',38,'Испытательная,Ключи','Отключение,Заземление','Замена участка кабеля.',''],
+['dsp-009','ДСП-ГС-009','Ремонт гидросистемы наклона','DSP','hydraulic','Гидросистема','ГС-ДСП',56,3,'4-5 разряд',4,'federal','ФЕРп-2001 т.01','ФЕР',0.90,'СР',58,'Ключи,Пресс,Съёмник','Сброс давления,Блокировка','Ремонт гидроагрегатов наклона.',''],
+['dsp-010','ДСП-КС-010','Ремонт короткой сети','DSP','electric','Короткая сеть','КС-ДСП',44,3,'5 разряд',4,'safety','ФНП Электроустановки','ФНП',0.91,'СР',46,'Ключи,Мегаомметр','Отключение,Заземление','Ремонт токопроводов.',''],
+['dsp-011','ДСП-ЗГ-011','Ремонт заслонок газоходов','DSP','mechanical','Заслонка','ЗГ-1200',16,2,'4 разряд',2,'industry','REC-PRIM-2024','Primetals',0.82,'ТР',15,'Ключи,Лебёдка','Блокировка,СИЗ','Замена заслонок газоходов.',''],
+['dsp-012','ДСП-СМ-012','Ремонт системы смазки','DSP','hydraulic','Система смазки','СС-ДСП',24,2,'4 разряд',2,'gost','ГОСТ Р 56291-2014','ГОСТ',0.85,'ТР',26,'Ключи,Насос','Сброс давления,СИЗ','Ремонт маслостанции.',''],
+['dsp-013','ДСП-ФЗ-013','Ремонт фурмы','DSP','mechanical','Фурма','Ф-ДСП',20,2,'4 разряд',3,'industry','REC-DAN-2024','Danieli',0.83,'СР',22,'Ключи,Сварочный','Наряд-допуск,СИЗ','Замена фурмы продувки.',''],
+['dsp-014','ДСП-ПК-014','Ремонт поворотного круга','DSP','mechanical','Поворотный круг','ПК-ДСП',40,3,'4-5 разряд',3,'federal','ФЕРп-2001 т.18','ФЕР',0.88,'СР',42,'Кран,Ключи','Блокировка,СИЗ','Ремонт механизма поворота.',''],
+['dsp-015','ДСП-ПУ-015','Ремонт пульта управления','DSP','electric','Пульт управления','ПУ-ДСП',20,2,'4-5 разряд',2,'actual','ХРОН-2024-007','Хронометраж',0.86,'ТР',19,'Ключи,Мультиметр','Отключение,СИЗ','Ремонт кнопок, индикации.',''],
+['upk-001','УПК-Ф-001','Замена футеровки УПК','UPK','mechanical','Печь-ковш','УПК-150',144,5,'5-6 разряд',4,'federal','ФЕРп-2001 т.18','ФЕР',0.94,'КР',150,'Пневмомолоток,Шаблоны','Наряд-допуск,СИЗ','Замена футеровки печи-ковша.','1201-001-002-001-001-001-001'],
+['upk-002','УПК-СВ-002','Ремонт свода печи-ковша','UPK','mechanical','Печь-ковш','УПК-150',96,4,'5 разряд',4,'federal','ФЕРп-2001 т.18','ФЕР',0.92,'СР',100,'Подмости,Шаблоны','Наряд-допуск,Работы на высоте','Замена футеровки свода УПК.',''],
+['upk-003','УПК-ЭД-003','Замена электрододержателя УПК','UPK','mechanical','Печь-ковш','УПК-150',48,3,'4-5 разряд',3,'industry','REC-DAN-2024','Danieli',0.85,'СР',50,'Кран,Ключи','Отключение,Заземление','Замена электрододержателя.',''],
+['upk-004','УПК-ГЦ-004','Ремонт гидроцилиндра подъёма','UPK','hydraulic','Гидроцилиндр','ГЦ-250',32,3,'4-5 разряд',3,'federal','ФЕРп-2001 т.01','ФЕР',0.90,'СР',34,'Съёмник,Пресс','Сброс давления,СИЗ','Замена уплотнений гидроцилиндра.',''],
+['upk-005','УПК-ТР-005','Ремонт трайбаппарата','UPK','mechanical','Трайбаппарат','ТА-УПК',36,3,'4-5 разряд',4,'industry','REC-SMS-2024','SMS group',0.84,'СР',38,'Кран,Ключи','Блокировка,СИЗ','Ремонт механизма трайбаппарата.',''],
+['upk-006','УПК-ФЗ-006','Замена фурмы донного продува','UPK','mechanical','Фурма','Ф-УПК',20,2,'4 разряд',3,'industry','REC-DAN-2024','Danieli',0.83,'СР',22,'Ключи,Сварочный','Наряд-допуск,СИЗ','Замена фурмы донного продува.',''],
+['upk-007','УПК-СМ-007','Ремонт системы смазки УПК','UPK','hydraulic','Система смазки','СС-УПК',20,2,'4 разряд',2,'gost','ГОСТ Р 56291-2014','ГОСТ',0.85,'ТР',19,'Ключи,Насос','Сброс давления,СИЗ','Ремонт маслостанции УПК.',''],
+['upk-008','УПК-ВК-008','Ремонт водоохлаждаемого кольца','UPK','mechanical','Водоохлаждаемое кольцо','ВК-УПК',28,3,'4-5 разряд',3,'federal','ФЕРп-2001 т.18','ФЕР',0.88,'СР',30,'Сварочный,Ключи','Наряд-допуск,СИЗ','Ремонт водоохлаждаемого кольца.',''],
+['upk-009','УПК-ПГ-009','Ремонт пневматики УПК','UPK','mechanical','Пневматика','ПН-УПК',16,2,'4 разряд',2,'industry','REC-PRIM-2024','Primetals',0.82,'ТР',15,'Ключи,Компрессор','Сброс давления,СИЗ','Ремонт пневмоприводов.',''],
+['upk-010','УПК-КС-010','Ремонт короткой сети УПК','UPK','electric','Короткая сеть','КС-УПК',40,3,'5 разряд',4,'safety','ФНП Электроустановки','ФНП',0.91,'СР',42,'Ключи,Мегаомметр','Отключение,Заземление','Ремонт короткой сети УПК.',''],
+['upk-011','УПК-ТК-011','Ремонт токопровода','UPK','electric','Токопровод','ТП-УПК',28,3,'5 разряд',3,'safety','ФНП Электроустановки','ФНП',0.90,'СР',30,'Ключи,Мегаомметр','Отключение,Заземление','Ремонт токопровода УПК.',''],
+['upk-012','УПК-ЗС-012','Ремонт загрузочной системы','UPK','mechanical','Загрузочная система','ЗС-УПК',44,3,'4-5 разряд',3,'industry','REC-SMS-2024','SMS group',0.84,'СР',46,'Ключи,Лебёдка','Блокировка,СИЗ','Ремонт системы загрузки.',''],
+['uvd-001','УВД-Ф-001','Замена футеровки вакуумной камеры','UVD','mechanical','Вакуумная камера','ВК-150',160,5,'5-6 разряд',5,'federal','ФЕРп-2001 т.18','ФЕР',0.93,'КР',165,'Пневмомолоток,Шаблоны','Наряд-допуск,СИЗ','Замена футеровки вакуумной камеры.','1201-001-003-001-001-001-001'],
+['uvd-002','УВД-КР-002','Ремонт крышки вакуумной камеры','UVD','mechanical','Вакуумная камера','ВК-150',56,4,'5 разряд',4,'federal','ФЕРп-2001 т.18','ФЕР',0.90,'СР',60,'Кран,Ключи,Сварочный','Наряд-допуск,СИЗ','Ремонт крышки и уплотнений.',''],
+['uvd-003','УВД-ВН-003','Ремонт вакуумных насосов','UVD','mechanical','Вакуумный насос','ВН-150',48,3,'5 разряд',4,'industry','REC-DAN-2024','Danieli',0.86,'СР',50,'Ключи,Пресс','Блокировка,СИЗ','Ремонт вакуумных насосов.',''],
+['uvd-004','УВД-ТР-004','Ремонт трубопроводов','UVD','mechanical','Трубопроводы','ТР-УВД',32,3,'4-5 разряд',3,'federal','ФЕРп-2001 т.18','ФЕР',0.88,'СР',34,'Сварочный,Ключи','Наряд-допуск,СИЗ','Ремонт трубопроводов.',''],
+['uvd-005','УВД-ЗТ-005','Ремонт затворов камеры','UVD','mechanical','Затвор','ЗТ-УВД',24,2,'4 разряд',3,'industry','REC-SMS-2024','SMS group',0.84,'ТР',22,'Ключи,Лебёдка','Блокировка,СИЗ','Ремонт затворов.',''],
+['uvd-006','УВД-ГЦ-006','Ремонт гидроприводов','UVD','hydraulic','Гидропривод','ГП-УВД',36,3,'4-5 разряд',3,'federal','ФЕРп-2001 т.01','ФЕР',0.90,'СР',38,'Ключи,Пресс','Сброс давления,СИЗ','Ремонт гидроприводов камеры.',''],
+['uvd-007','УВД-ЭД-007','Замена электродвигателей','UVD','electric','Электродвигатель','АИР160М4',14,2,'4 разряд',2,'federal','ФЕРп-2001 т.01','ФЕР',0.93,'ТР',13,'Кран,Ключи,Мегаомметр','Отключение,Заземление','Замена электродвигателя.',''],
+['uvd-008','УВД-КИ-008','Ремонт КИПиА','UVD','electric','КИПиА','КИП-УВД',18,2,'4-5 разряд',3,'actual','ХРОН-2024-008','Хронометраж',0.86,'ТР',17,'Калибратор,Мультиметр','Отключение,СИЗ','Ремонт датчиков и приборов.',''],
+['uvd-009','УВД-СМ-009','Ремонт системы смазки','UVD','hydraulic','Система смазки','СС-УВД',16,2,'4 разряд',2,'gost','ГОСТ Р 56291-2014','ГОСТ',0.84,'ТР',15,'Ключи,Насос','Сброс давления,СИЗ','Ремонт системы смазки.',''],
+['uvd-010','УВД-ЛФ-010','Ремонт подачи ферросплавов','UVD','mechanical','Система подачи','СП-УВД',28,3,'4 разряд',3,'industry','REC-DAN-2024','Danieli',0.83,'СР',30,'Ключи,Лебёдка','Блокировка,СИЗ','Ремонт системы подачи.',''],
+['onl-001','ОНЛЗ-КР-001','Замена кристаллизатора','ONLZ','mechanical','Кристаллизатор','КР-ОНЛЗ',48,4,'5 разряд',4,'federal','ФЕРп-2001 т.18','ФЕР',0.93,'СР',52,'Кран,Ключи','Наряд-допуск,СИЗ','Замена кристаллизатора МНЛЗ.','1201-001-004-001-001-001-001'],
+['onl-002','ОНЛЗ-РО-002','Замена тянущих роликов','ONLZ','mechanical','Тянущие ролики','РО-ОНЛЗ',24,3,'4-5 разряд',3,'federal','ФЕРп-2001 т.18','ФЕР',0.91,'СР',26,'Ключи,Лебёдка','Блокировка,СИЗ','Замена тянущих роликов.',''],
+['onl-003','ОНЛЗ-ЗО-003','Ремонт зоны вторичного охлаждения','ONLZ','mechanical','ЗВО','ЗВО-ОНЛЗ',40,3,'4-5 разряд',4,'industry','REC-DAN-2024','Danieli',0.85,'СР',42,'Ключи,Сварочный','Наряд-допуск,СИЗ','Ремонт форсунок и коллекторов.',''],
+['onl-004','ОНЛЗ-КА-004','Замена качающегося механизма','ONLZ','mechanical','Качающийся механизм','КМ-ОНЛЗ',36,3,'4-5 разряд',4,'federal','ФЕРп-2001 т.18','ФЕР',0.89,'СР',38,'Кран,Ключи','Блокировка,СИЗ','Замена механизма качания.',''],
+['onl-005','ОНЛЗ-ГЦ-005','Ремонт гидроцилиндров','ONLZ','hydraulic','Гидроцилиндр','ГЦ-ОНЛЗ',28,2,'4-5 разряд',3,'federal','ФЕРп-2001 т.01','ФЕР',0.90,'СР',30,'Съёмник,Пресс','Сброс давления,СИЗ','Ремонт гидроцилиндров.',''],
+['onl-006','ОНЛЗ-РЕ-007','Ремонт редуктора','ONLZ','mechanical','Редуктор','РД-ОНЛЗ',32,3,'4-5 разряд',4,'federal','ФЕРп-2001 т.01','ФЕР',0.90,'СР',34,'Съёмник,Пресс','Блокировка,СИЗ','Ремонт редуктора.',''],
+['onl-007','ОНЛЗ-СТ-008','Замена стопорного механизма','ONLZ','mechanical','Стопорный механизм','СМ-ОНЛЗ',20,2,'4-5 разряд',3,'industry','REC-SMS-2024','SMS group',0.84,'СР',22,'Ключи','Блокировка,СИЗ','Замена стопорного механизма.',''],
+['onl-008','ОНЛЗ-ЗТ-009','Ремонт затравки','ONLZ','mechanical','Затравка','ЗТ-ОНЛЗ',18,2,'4 разряд',3,'industry','REC-DAN-2024','Danieli',0.82,'ТР',16,'Ключи,Сварочный','Блокировка,СИЗ','Ремонт затравки.',''],
+['onl-009','ОНЛЗ-ХО-010','Ремонт системы охлаждения','ONLZ','hydraulic','Система охлаждения','СО-ОНЛЗ',24,2,'4 разряд',3,'gost','ГОСТ Р 56291-2014','ГОСТ',0.85,'ТР',26,'Ключи,Насос','Сброс давления,СИЗ','Ремонт системы охлаждения.',''],
+['onl-010','ОНЛЗ-ГЗ-011','Замена газорезки','ONLZ','mechanical','Газорезка','ГЗ-ОНЛЗ',16,2,'4 разряд',3,'industry','REC-SMS-2024','SMS group',0.84,'СР',18,'Ключи,Газосварка','Наряд-допуск,СИЗ','Замена газорезки.',''],
+['onl-011','ОНЛЗ-РО-012','Ремонт рольганга','ONLZ','mechanical','Рольганг','РГ-ОНЛЗ',28,3,'4 разряд',3,'federal','ФЕРп-2001 т.18','ФЕР',0.88,'СР',30,'Ключи,Кран-балка','Блокировка,СИЗ','Ремонт рольганга.',''],
+['onl-012','ОНЛЗ-МР-013','Ремонт механизма резки','ONLZ','mechanical','Механизм резки','МР-ОНЛЗ',32,3,'4-5 разряд',4,'federal','ФЕРп-2001 т.18','ФЕР',0.89,'СР',34,'Ключи,Кран-балка','Блокировка,СИЗ','Ремонт механизма резки.',''],
+['onl-013','ОНЛЗ-ТР-014','Ремонт транспортера','ONLZ','mechanical','Транспортёр','ТР-ОНЛЗ',24,2,'3-4 разряд',2,'gost','ГОСТ Р 56291-2014','ГОСТ',0.83,'ТР',22,'Ключи','Блокировка,СИЗ','Ремонт транспортера.',''],
+['onl-014','ОНЛЗ-ЭД-015','Замена электропривода','ONLZ','electric','Электропривод','ЭП-ОНЛЗ',16,2,'4 разряд',2,'federal','ФЕРп-2001 т.01','ФЕР',0.93,'ТР',15,'Кран,Ключи,Мегаомметр','Отключение,Заземление','Замена электропривода.',''],
+['onl-015','ОНЛЗ-КС-016','Ремонт кабельной сети','ONLZ','electric','Кабельная сеть','КС-ОНЛЗ',28,3,'5 разряд',3,'safety','ФНП Электроустановки','ФНП',0.92,'ТР',30,'Испытательная,Ключи','Отключение,Заземление','Ремонт кабельных трасс.',''],
+['ush-001','УСХ-КР-001','Ремонт крана-штабелера','USH','lifting','Кран-штабелер','КШ-20',72,3,'5 разряд',5,'safety','ФНП Подъёмные сооружения','ФНП',0.92,'КР',76,'Кран-балка,Ключи','Ограждение,Наряд-допуск','Ремонт крана-штабелера.','1201-001-005-001-001-001-001'],
+['ush-002','УСХ-ТР-002','Ремонт транспортных тележек','USH','mechanical','Транспортная тележка','ТТ-УСХ',24,3,'4 разряд',3,'federal','ФЕРп-2001 т.18','ФЕР',0.88,'СР',26,'Ключи,Кран-балка','Блокировка,СИЗ','Ремонт транспортных тележек.',''],
+['ush-003','УСХ-РГ-003','Ремонт рольганга отгрузки','USH','mechanical','Рольганг','РГ-УСХ',28,3,'4 разряд',3,'federal','ФЕРп-2001 т.18','ФЕР',0.88,'СР',30,'Ключи,Кран-балка','Блокировка,СИЗ','Ремонт рольганга.',''],
+['ush-004','УСХ-КН-004','Замена канатов крана-штабелера','USH','lifting','Кран-штабелер','КШ-20',24,3,'4-5 разряд',3,'safety','ФНП Подъёмные сооружения','ФНП',0.93,'СР',22,'Ключи,Лебёдка','Ограждение,Наряд-допуск','Замена канатов.',''],
+['ush-005','УСХ-СТ-005','Ремонт стеллажей хранения','USH','mechanical','Стеллаж','СТ-УСХ',32,3,'4 разряд',3,'federal','ФЕРп-2001 т.18','ФЕР',0.86,'СР',34,'Сварочный,Ключи','Наряд-допуск,СИЗ','Ремонт стеллажей.',''],
+['ush-006','УСХ-ЗТ-006','Ремонт затворов накопителей','USH','mechanical','Затвор','ЗТ-УСХ',16,2,'3-4 разряд',2,'industry','REC-SMS-2024','SMS group',0.82,'ТР',15,'Ключи','Блокировка,СИЗ','Ремонт затворов.',''],
+['ush-007','УСХ-ЗД-007','Ремонт зданий склада','USH','building','Здание','ЗД-УСХ',48,4,'4-5 разряд',3,'federal','ФЕР-2001','ФЕР',0.88,'ТР',52,'Сварочный,Ключи','Наряд-допуск,Работы на высоте','Ремонт конструкций.',''],
+['ush-008','УСХ-КС-008','Ремонт кабельной сети','USH','electric','Кабельная сеть','КС-УСХ',24,2,'5 разряд',3,'safety','ФНП Электроустановки','ФНП',0.91,'ТР',26,'Испытательная,Ключи','Отключение,Заземление','Ремонт кабельной сети.',''],
+['ush-009','УСХ-ОС-009','Ремонт освещения склада','USH','electric','Освещение','ОС-УСХ',12,2,'4 разряд',2,'federal','ФЕРп-2001 т.01','ФЕР',0.90,'ТР',11,'Лестница,Ключи','Отключение,СИЗ','Замена светильников.',''],
+['ush-010','УСХ-ВР-010','Ремонт ворот склада','USH','building','Ворота','ВР-УСХ',20,2,'4 разряд',2,'federal','ФЕР-2001','ФЕР',0.87,'ТР',22,'Сварочный,Ключи','Наряд-допуск,СИЗ','Ремонт ворот.',''],
+['uor-001','УОР-СК-001','Футеровка стальковша','UOR','refractory','Стальковш','СК-150',120,5,'5-6 разряд',4,'federal','ФЕРп-2001 т.18','ФЕР',0.94,'КР',125,'Пневмомолоток,Шаблоны','Наряд-допуск,СИЗ','Футеровка стальковша.','1201-001-006-001-001-001-001'],
+['uor-002','УОР-ШК-002','Футеровка шлакового ковша','UOR','refractory','Шлаковый ковш','ШК-30',80,4,'4-5 разряд',4,'federal','ФЕРп-2001 т.18','ФЕР',0.92,'КР',84,'Пневмомолоток,Шаблоны','Наряд-допуск,СИЗ','Футеровка шлакового ковша.',''],
+['uor-003','УОР-СТ-003','Ремонт стопорного механизма','UOR','mechanical','Стопорный механизм','СМ-СК',20,2,'4-5 разряд',3,'industry','REC-DAN-2024','Danieli',0.85,'СР',22,'Ключи','Блокировка,СИЗ','Ремонт стопорного механизма.',''],
+['uor-004','УОР-ШЛ-004','Замена шиберного затвора','UOR','mechanical','Шиберный затвор','ШЗ-СК',24,3,'4-5 разряд',4,'industry','REC-SMS-2024','SMS group',0.86,'СР',26,'Кран,Ключи','Наряд-допуск,СИЗ','Замена шиберного затвора.',''],
+['uor-005','УОР-КР-005','Ремонт крышки стальковша','UOR','mechanical','Крышка','КР-СК',16,2,'4 разряд',2,'federal','ФЕРп-2001 т.18','ФЕР',0.88,'ТР',18,'Сварочный,Ключи','Наряд-допуск,СИЗ','Ремонт крышки.',''],
+['uor-006','УОР-СТ-006','Ремонт сталеразливочного стакана','UOR','refractory','Стакан','СТ-СК',20,2,'4-5 разряд',3,'federal','ФЕРп-2001 т.18','ФЕР',0.91,'СР',22,'Ключи,Шаблоны','Наряд-допуск,СИЗ','Ремонт стакана.',''],
+['uor-007','УОР-ЦС-007','Ремонт цапф стальковша','UOR','mechanical','Цапфа','ЦС-СК',24,3,'5 разряд',3,'federal','ФЕРп-2001 т.18','ФЕР',0.90,'СР',26,'Кран,Ключи,Сварочный','Наряд-допуск,СИЗ','Ремонт цапф.',''],
+['uor-008','УОР-ТР-008','Ремонт траверсы','UOR','mechanical','Траверса','ТР-СК',20,2,'4-5 разряд',3,'industry','REC-PRIM-2024','Primetals',0.83,'СР',22,'Ключи,Сварочный','Наряд-допуск,СИЗ','Ремонт траверсы.',''],
+['uor-009','УОР-СЗ-009','Замена сталезаливочной воронки','UOR','refractory','Воронка','СЗ-СК',12,2,'4 разряд',2,'federal','ФЕРп-2001 т.18','ФЕР',0.89,'ТР',11,'Ключи,Шаблоны','Наряд-допуск,СИЗ','Замена воронки.',''],
+['uor-010','УОР-КР-010','Сушка и разогрев ковшей','UOR','refractory','Ковш','КВ-УОР',24,2,'4 разряд',2,'industry','REC-DAN-2024','Danieli',0.85,'ТР',22,'Горелка,Термопара','Наряд-допуск,СИЗ','Сушка и разогрев ковшей.',''],
+['uor-011','УОР-СМ-011','Ремонт системы смазки','UOR','hydraulic','Система смазки','СС-УОР',12,2,'4 разряд',2,'gost','ГОСТ Р 56291-2014','ГОСТ',0.83,'ТР',11,'Ключи,Насос','Сброс давления,СИЗ','Ремонт системы смазки.',''],
+['uor-012','УОР-ЭД-012','Замена электропривода','UOR','electric','Электропривод','ЭП-УОР',14,2,'4 разряд',2,'federal','ФЕРп-2001 т.01','ФЕР',0.92,'ТР',13,'Кран,Ключи,Мегаомметр','Отключение,Заземление','Замена электропривода.',''],
+['bld-001','ЗД-КР-001','Ремонт кровли цеха','BLD','building','Кровля','КР-ЦЕХ',120,5,'4-5 разряд',3,'federal','ФЕР-2001','ФЕР',0.90,'ТР',126,'Сварочный,Ключи,Лестница','Наряд-допуск,Работы на высоте','Ремонт кровли цеха.','1201-001-007-001-001-001-001'],
+['bld-002','ЗД-СТ-002','Ремонт стен здания','BLD','building','Стены','СТ-ЦЕХ',80,4,'4 разряд',3,'federal','ФЕР-2001','ФЕР',0.89,'ТР',84,'Сварочный,Лестница','Наряд-допуск,Работы на высоте','Ремонт стен.',''],
+['bld-003','ЗД-ПЛ-003','Ремонт промышленных полов','BLD','building','Полы','ПЛ-ЦЕХ',64,4,'4 разряд',2,'federal','ФЕР-2001','ФЕР',0.90,'ТР',68,'Бетономешалка,Ключи','Наряд-допуск,СИЗ','Ремонт полов.',''],
+['bld-004','ЗД-ВР-004','Замена ворот','BLD','building','Ворота','ВР-ЦЕХ',24,3,'4 разряд',3,'federal','ФЕР-2001','ФЕР',0.88,'СР',26,'Сварочный,Ключи','Наряд-допуск,СИЗ','Замена ворот.',''],
+['bld-005','ЗД-ОК-005','Замена оконных блоков','BLD','building','Окна','ОК-ЦЕХ',18,2,'4 разряд',2,'federal','ФЕР-2001','ФЕР',0.87,'ТР',17,'Лестница,Ключи','Работы на высоте,СИЗ','Замена оконных блоков.',''],
+['bld-006','ЗД-МТ-006','Ремонт металлоконструкций','BLD','building','Металлоконструкции','МК-ЦЕХ',72,4,'5 разряд',4,'federal','ФЕР-2001','ФЕР',0.90,'СР',76,'Сварочный,Кран','Наряд-допуск,Работы на высоте','Ремонт металлоконструкций.',''],
+['bld-007','ЗД-ДВ-007','Ремонт дымовых труб','BLD','building','Дымовая труба','ДТ-ЦЕХ',48,3,'5 разряд',4,'federal','ФЕР-2001','ФЕР',0.88,'СР',52,'Лестница,Сварочный','Наряд-допуск,Работы на высоте','Ремонт дымовых труб.',''],
+['bld-008','ЗД-ОТ-008','Ремонт отмостки','BLD','building','Отмостка','ОТ-ЦЕХ',32,3,'4 разряд',2,'federal','ФЕР-2001','ФЕР',0.85,'ТР',34,'Бетономешалка','СИЗ','Ремонт отмостки.',''],
+['abk-001','АБК-КР-001','Ремонт кровли АБК','ABK','building','Кровля','КР-АБК',60,4,'4-5 разряд',3,'federal','ФЕР-2001','ФЕР',0.90,'ТР',64,'Сварочный,Лестница','Наряд-допуск,Работы на высоте','Ремонт кровли АБК.','1201-001-008-001-001-001-001'],
+['abk-002','АБК-СТ-002','Ремонт стен АБК','ABK','building','Стены','СТ-АБК',48,3,'4 разряд',3,'federal','ФЕР-2001','ФЕР',0.89,'ТР',50,'Лестница,Ключи','Работы на высоте,СИЗ','Ремонт стен АБК.',''],
+['abk-003','АБК-СВ-003','Ремонт систем водоснабжения','ABK','building','Водоснабжение','ВС-АБК',36,2,'4-5 разряд',3,'federal','ФЕР-2001','ФЕР',0.89,'ТР',38,'Ключи,Сварка','СИЗ','Ремонт систем водоснабжения.',''],
+['abk-004','АБК-ОТ-004','Ремонт систем отопления','ABK','building','Отопление','ОТ-АБК',32,2,'4-5 разряд',3,'federal','ФЕР-2001','ФЕР',0.89,'ТР',34,'Ключи,Сварка','СИЗ','Ремонт систем отопления.',''],
+['abk-005','АБК-ЭЛ-005','Ремонт электроснабжения','ABK','electric','Электроснабжение','ЭЛ-АБК',28,2,'5 разряд',3,'safety','ФНП Электроустановки','ФНП',0.91,'ТР',30,'Испытательная,Ключи','Отключение,Заземление','Ремонт электроснабжения.',''],
+['abk-006','АБК-СА-006','Ремонт сантехоборудования','ABK','building','Сантехника','СА-АБК',20,2,'4 разряд',2,'federal','ФЕР-2001','ФЕР',0.88,'ТР',19,'Ключи','СИЗ','Ремонт сантехоборудования.',''],
+['lft-001','ПС-МК-001','Замена канатов мостового крана','LIFT','lifting','Мостовой кран','Кран 100/20т',32,4,'4-5 разряд',4,'safety','ФНП Подъёмные сооружения','ФНП',0.95,'СР',30,'Лебёдка,Смазка,Ключи','Ограждение,Наряд-допуск','Замена канатов.','1201-001-009-001-001-001-001'],
+['lft-002','ПС-МК-002','Ремонт грузовой тележки','LIFT','lifting','Мостовой кран','Кран 100/20т',64,3,'4-5 разряд',4,'safety','ФНП Подъёмные сооружения','ФНП',0.93,'СР',68,'Кран-балка,Ключи','Ограждение,Наряд-допуск','Ремонт грузовой тележки.',''],
+['lft-003','ПС-МК-003','Замена тормозов крана','LIFT','lifting','Мостовой кран','Кран 100/20т',16,2,'4 разряд',3,'safety','ФНП Подъёмные сооружения','ФНП',0.94,'ТР',15,'Ключи,Динамометр','Кран на упорах,Наряд-допуск','Замена тормозов.',''],
+['lft-004','ПС-МК-004','Ремонт ходовой части крана','LIFT','lifting','Мостовой кран','Кран 100/20т',80,4,'5 разряд',5,'actual','ХРОН-2024-002','Хронометраж ММК',0.89,'КР',84,'Кран-балка,Нивелир,Пресс','Кран на упорах,Наряд-допуск','Ремонт ходовой части.',''],
+['lft-005','ПС-МК-005','Ремонт моста крана','LIFT','lifting','Мостовой кран','Кран 100/20т',96,4,'5 разряд',5,'safety','ФНП Подъёмные сооружения','ФНП',0.92,'КР',100,'Кран,Сварочный,Ключи','Ограждение,Наряд-допуск','Ремонт моста крана.',''],
+['lft-006','ПС-МК-006','Ремонт крюковой подвески','LIFT','lifting','Мостовой кран','Кран 100/20т',20,2,'4-5 разряд',3,'safety','ФНП Подъёмные сооружения','ФНП',0.93,'СР',19,'Ключи,Дефектоскоп','Ограждение,Наряд-допуск','Ремонт крюковой подвески.',''],
+['lft-007','ПС-ТЛ-007','Замена каната тали','LIFT','lifting','Таль','Тельфер 5т',8,2,'3-4 разряд',2,'safety','ФНП Подъёмные сооружения','ФНП',0.92,'ТР',7,'Намотка,Смазка','Ограждение,СИЗ','Замена каната тали.',''],
+['lft-008','ПС-ТЛ-008','Ремонт тельфера','LIFT','lifting','Тельфер','Тельфер 5т',32,3,'4-5 разряд',4,'safety','ФНП Подъёмные сооружения','ФНП',0.91,'СР',34,'Ключи,Лебёдка','Ограждение,Наряд-допуск','Ремонт тельфера.',''],
+['lft-009','ПС-КБ-009','Ремонт крана-балансира','LIFT','lifting','Кран-балансир','КБ-10',40,3,'4-5 разряд',4,'safety','ФНП Подъёмные сооружения','ФНП',0.90,'СР',42,'Ключи,Сварочный','Ограждение,Наряд-допуск','Ремонт крана-балансира.',''],
+['lft-010','ПС-КБ-010','Замена пневмопривода балансира','LIFT','lifting','Кран-балансир','КБ-10',20,2,'4 разряд',3,'safety','ФНП Подъёмные сооружения','ФНП',0.90,'СР',22,'Ключи,Компрессор','Сброс давления,СИЗ','Замена пневмопривода.',''],
+['lft-011','ПС-ЛФ-011','Ремонт лифта','LIFT','lifting','Лифт','ЛФ-1000',48,3,'4-5 разряд',4,'safety','ФНП Подъёмные сооружения','ФНП',0.92,'СР',50,'Ключи,Лебёдка','Ограждение,Наряд-допуск','Ремонт лифта.',''],
+['lft-012','ПС-ПД-012','Ремонт подъёмника','LIFT','lifting','Подъёмник','ПД-500',32,3,'4-5 разряд',3,'safety','ФНП Подъёмные сооружения','ФНП',0.91,'СР',34,'Ключи,Лебёдка','Ограждение,Наряд-допуск','Ремонт подъёмника.','']
+];
 
-/* ═══════════════════════════════════════════════════════════
-   СЛОВАРИ
-   ═══════════════════════════════════════════════════════════ */
+const BASE_NORMS = N_RAW.map(r => ({
+  id:r[0], operationCode:r[1], operationName:r[2], section:r[3], equipmentCategory:r[4],
+  equipmentType:r[5], equipmentUnit:r[6], normValue:r[7], unit:'чел-час', teamSize:r[8],
+  qualification:r[9], complexity:r[10], sourceType:r[11], sourceCode:r[12], sourceTitle:r[13],
+  confidenceLevel:r[14], repairType:r[15], actualAvg:r[16],
+  toolsRequired:(r[17]||'').split(',').map(s=>s.trim()).filter(Boolean),
+  safetyRequirements:(r[18]||'').split(',').map(s=>s.trim()).filter(Boolean),
+  description:r[19]||'', tm:r[20]||'',
+  deviationPct: r[16] ? +(((r[16]-r[7])/r[7])*100).toFixed(1) : 0
+}));
+
 const SECTION_NAMES = {'UPSMiF':'УПСМиФ','DSP':'ДСП','UPK':'УПК (печь-ковш)','UVD':'УВД (вакууматор)','ONLZ':'ОНЛЗ','USH':'УСХиОЗ','UOR':'УОРСиШК','BLD':'Здания производственные','ABK':'АБК','LIFT':'Подъёмные сооружения'};
 const CATEGORY_NAMES = {mechanical:'Механическое',energy:'Энергетическое',hydraulic:'Гидравлическое',electric:'Электрическое',lifting:'Подъёмные сооружения',refractory:'Огнеупорное',building:'Строительные конструкции'};
 const SOURCE_NAMES = {federal:'Федеральные нормативы',gost:'ГОСТы',safety:'Правила безопасности (ФНП)',actual:'Фактические данные',industry:'Отраслевые рекомендации'};
 const REPAIR_NAMES = {'ТР':'Текущий ремонт','СР':'Средний ремонт','КР':'Капитальный ремонт'};
 const ROLE_NAMES = {admin:'Администратор',engineer:'Инженер',user:'Пользователь'};
 
-/* ═══════════════════════════════════════════════════════════
-   API-КЛИЕНТ
-   ═══════════════════════════════════════════════════════════ */
-const API = {
-  token: localStorage.getItem('esp_token') || '',
-  user: null,
-
-  async call(method, path, body){
-    const headers = { 'Content-Type': 'application/json' };
-    if(this.token) headers['Authorization'] = 'Bearer ' + this.token;
-    let r;
-    try {
-      r = await fetch(path, { method, headers, body: body ? JSON.stringify(body) : undefined });
-    } catch(e) {
-      return { ok:false, msg:'Сервер недоступен. Проверьте подключение.' };
-    }
-    if(r.status === 401){
-      this.token = '';
-      localStorage.removeItem('esp_token');
-      if(location.pathname.indexOf('esp-lite') >= 0 || location.pathname.indexOf('esp-full') >= 0){
-        showLogin();
-      }
-      return { ok:false, msg:'Сессия истекла' };
-    }
-    try { return await r.json(); } catch(e) { return { ok:false, msg:'Ошибка разбора ответа' }; }
-  },
-
-  get(p){ return this.call('GET', p); },
-  post(p, b){ return this.call('POST', p, b); },
-  put(p, b){ return this.call('PUT', p, b); },
-  del(p){ return this.call('DELETE', p); },
-
-  async login(login, password){
-    const r = await this.post('/api/login', { login, password });
-    if(r.ok){
-      this.token = r.token;
-      this.user = r.user;
-      localStorage.setItem('esp_token', r.token);
-    }
-    return r;
-  },
-
-  async me(){
-    const r = await this.get('/api/me');
-    if(r.ok) this.user = r.user;
-    return r;
-  },
-
-  logout(){
-    this.token = '';
-    this.user = null;
-    localStorage.removeItem('esp_token');
+const PWD_SALT = 'esp-norm-salt-v1';
+async function sha256Hex(data){
+  const buf = new TextEncoder().encode(data);
+  const h = await crypto.subtle.digest('SHA-256', buf);
+  return [...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function fnvIterHex(data){
+  let h = 2166136261 >>> 0;
+  for(let round=0; round<10000; round++){ for(let i=0;i<data.length;i++){ h ^= data.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; } }
+  return h.toString(16).padStart(8,'0');
+}
+async function hashPwd(pwd){
+  const data = PWD_SALT + '::' + pwd;
+  if(window.crypto && crypto.subtle && crypto.subtle.digest){
+    try{ return 'sha256:' + await sha256Hex(data); }catch(e){}
   }
+  return 'fnv:' + fnvIterHex(data);
+}
+async function verifyPwd(pwd, storedHash){
+  if(!storedHash) return false;
+  const data = PWD_SALT + '::' + pwd;
+  if(storedHash.startsWith('sha256:')){
+    if(!window.crypto || !crypto.subtle) return false;
+    try{ return ('sha256:' + await sha256Hex(data)) === storedHash; }catch(e){ return false; }
+  }
+  if(storedHash.startsWith('fnv:')){
+    return ('fnv:' + fnvIterHex(data)) === storedHash;
+  }
+  return false;
+}
+function isHashed(h){ return typeof h === 'string' && (h.startsWith('sha256:') || h.startsWith('fnv:')); }
+
+const DEFAULT_USERS = [
+  {login:'admin',password:'admin123',name:'Администратор',role:'admin',createdAt:'2026-01-01'},
+  {login:'engineer',password:'eng123',name:'Инженер-нормировщик',role:'engineer',createdAt:'2026-01-01'},
+  {login:'user',password:'user123',name:'Пользователь',role:'user',createdAt:'2026-01-01'}
+];
+
+let AUTH = {
+  users: JSON.parse(localStorage.getItem('esp_users') || 'null') || JSON.parse(JSON.stringify(DEFAULT_USERS)),
+  session: null
 };
+if(!localStorage.getItem('esp_users')) localStorage.setItem('esp_users', JSON.stringify(DEFAULT_USERS));
+function saveUsers(){localStorage.setItem('esp_users', JSON.stringify(AUTH.users))}
 
-/* ═══════════════════════════════════════════════════════════
-   ГЛОБАЛЬНОЕ СОСТОЯНИЕ
-   ═══════════════════════════════════════════════════════════ */
-const state = {
-  tab: 'normatives',
-  norms: [],
-  equipment: [],
-  cards: [],
-  workflowStates: {},
-  search: '',
-  fSection: '', fCat: '', fRep: '', fSrc: '',
-  calc: [],
-  calcSearch: ''
-};
-
-function allNorms(){ return state.norms; }
-function getFiltered(){
-  return state.norms.filter(n => {
-    const s = state.search.toLowerCase().trim();
-    const mS = !s || (n.operationName||'').toLowerCase().includes(s) || (n.equipmentType||'').toLowerCase().includes(s)
-      || (n.operationCode||'').toLowerCase().includes(s) || (n.tm && n.tm.toLowerCase().includes(s));
-    return mS
-      && (!state.fSection || n.section === state.fSection)
-      && (!state.fCat || n.equipmentCategory === state.fCat)
-      && (!state.fRep || n.repairType === state.fRep)
-      && (!state.fSrc || n.sourceType === state.fSrc);
-  });
+async function migratePasswords(){
+  let changed = false;
+  for(const u of AUTH.users){
+    if(!u.password || isHashed(u.password)) continue;
+    u.password = await hashPwd(u.password);
+    changed = true;
+  }
+  if(changed){ saveUsers(); console.log('[ESP] Пароли переведены в хеши'); }
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ЗАГРУЗКА ДАННЫХ
-   ═══════════════════════════════════════════════════════════ */
-async function loadAll(){
-  const [normsR, equipR, cardsR, statesR] = await Promise.all([
-    API.get('/api/norms'),
-    API.get('/api/equipment'),
-    API.get('/api/cards'),
-    API.get('/api/workflow/states')
-  ]);
-  if(normsR.ok) state.norms = normsR.norms || [];
-  if(equipR.ok) state.equipment = equipR.equipment || [];
-  if(cardsR.ok) state.cards = cardsR.cards || [];
-  if(statesR.ok) state.workflowStates = statesR.states || {};
+async function tryLogin(login, password){
+  const u = AUTH.users.find(x => x.login === login);
+  if(!u) return false;
+  const ok = await verifyPwd(password, u.password);
+  if(!ok) return false;
+  AUTH.session = {login:u.login, name:u.name, role:u.role, loginTime:new Date().toISOString()};
+  sessionStorage.setItem('esp_session', JSON.stringify(AUTH.session));
+  return true;
+}
+function restoreSession(){
+  const s = sessionStorage.getItem('esp_session');
+  if(s){ try{ AUTH.session = JSON.parse(s); return true }catch(e){} }
+  return false;
+}
+function logout(){
+  if(!confirm('Выйти из системы?')) return;
+  AUTH.session = null;
+  sessionStorage.removeItem('esp_session');
+  showLogin();
+}
+function switchToFull(){
+  if(!confirm('↪ Переход в расширенную версию Full?\n\nВсе данные сохранятся.\nФайл esp-full.html должен лежать рядом с esp-lite.html.\n\nПродолжить?')) return;
+  localStorage.setItem('esp_last_version', 'lite');
+  localStorage.setItem('esp_switched_from', 'lite');
+  localStorage.setItem('esp_switched_at', new Date().toISOString());
+  try{ window.location.href = './esp-full.html'; }catch(e){ alert('Не удалось открыть esp-full.html'); }
+}
+function showLogin(){
+  document.getElementById('loginScreen').style.display='flex';
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('loginForm').reset();
+  document.getElementById('loginError').classList.remove('show');
+  setTimeout(()=>document.getElementById('loginInput').focus(),100);
+}
+function showApp(){
+  try {
+    const loginScreen = document.getElementById('loginScreen');
+    const app = document.getElementById('app');
+    if (loginScreen) loginScreen.style.display = 'none';
+    if (app) {
+      app.classList.remove('hidden');
+      app.style.display = 'grid';
+      app.style.height = 'calc(var(--vh,1vh) * 100)';
+    }
+    if (typeof renderUserBadge === 'function') renderUserBadge();
+    if (typeof renderNav === 'function') renderNav();
+    if (typeof renderChat === 'function') renderChat();
+    document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
+    const g = window.ESP_GUARD || {};
+    const wm = document.getElementById('esp-wm');
+    if (wm) wm.textContent = (g.watermark || '') + ' · ' + (g.licenseId || '');
+  } catch(e) {
+    console.error('[ESP] Ошибка в showApp:', e);
+    alert('Ошибка при входе: ' + e.message);
+  }
+}
+function renderUserBadge(){
+  const s = AUTH.session; if(!s) return;
+  const initial = (s.name||s.login).charAt(0).toUpperCase();
+  document.getElementById('userBadge').innerHTML = `<div class="user-avatar">${initial}</div><div><div class="uname">${s.name||s.login}</div><div class="urole">${ROLE_NAMES[s.role]||s.role}</div></div>`;
 }
 
-async function refreshNorms(){
-  const r = await API.get('/api/norms');
-  if(r.ok) state.norms = r.norms || [];
-}
-
-/* ═══════════════════════════════════════════════════════════
-   TM
-   ═══════════════════════════════════════════════════════════ */
-const TM_PREFIX = '1201';
+// ═══ ТМ: XXXX [ - XXX [ - XXX ... ] ] — до 7 групп (22 цифры). Цех — любой 4-значный.
+const TM_PREFIX_LEN = 4;
+const TM_MAX_GROUPS = 6;
+const TM_MAX_DIGITS = TM_PREFIX_LEN + TM_MAX_GROUPS * 3; // 22
 function validateTM(tm){
-  if(!tm) return {ok:true, empty:true, msg:'Необязательно'};
-  const p = tm.split('-');
-  if(p.length !== 7) return {ok:false, msg:'Ожидается 7 групп'};
-  if(p[0] !== TM_PREFIX) return {ok:false, msg:`Префикс ${TM_PREFIX}`};
-  for(let i=1;i<7;i++){ if(!/^\d{3}$/.test(p[i])) return {ok:false, msg:`Группа ${i}: 3 цифры`}; }
-  return {ok:true, msg:'OK'};
+  if(!tm) return {ok:true, msg:'Поле необязательное', empty:true};
+  const parts = tm.split('-');
+  if(parts.length < 1 || parts.length > TM_MAX_GROUPS + 1){
+    return {ok:false, msg:`Допустимо от 1 до ${TM_MAX_GROUPS + 1} групп`};
+  }
+  if(!/^\d{4}$/.test(parts[0])){
+    return {ok:false, msg:'Префикс должен быть 4 цифры (1201, 1221 и т.п.)'};
+  }
+  for(let i=1;i<parts.length;i++){
+    if(!/^\d{3}$/.test(parts[i])) return {ok:false, msg:`Группа ${i}: ровно 3 цифры`};
+  }
+  return {ok:true, msg:`Формат корректен (${parts.length} ур.)`};
 }
 function autoFormatTM(input){
   let v = input.value.replace(/[^\d]/g,'');
-  if(v.length > 22) v = v.slice(0,22);
-  if(!v){ input.value=''; return; }
-  if(v.length <= 4){ input.value = v; return; }
-  let out = v.slice(0,4);
-  for(let i=4; i<v.length; i+=3) out += '-' + v.slice(i, i+3);
-  input.value = out;
+  if(v.length > TM_MAX_DIGITS) v = v.slice(0, TM_MAX_DIGITS);
+  let formatted = '';
+  if(v.length === 0){ input.value=''; return; }
+  if(v.length <= TM_PREFIX_LEN){ formatted = v; }
+  else {
+    formatted = v.slice(0, TM_PREFIX_LEN);
+    for(let i = TM_PREFIX_LEN; i < v.length; i += 3){ formatted += '-' + v.slice(i, i + 3); }
+  }
+  input.value = formatted;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   UI-ХЕЛПЕРЫ
-   ═══════════════════════════════════════════════════════════ */
-function escapeHtml(s){
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
-function showToast(text, type='info', duration=3000){
-  const t = document.createElement('div');
-  t.className = 'full-toast';
-  const icons = {ok:'✅', info:'ℹ️', warn:'⚠️', err:'❌'};
-  t.innerHTML = `<button class="toast-close" onclick="this.parentElement.remove()">×</button>
-    <div class="toast-icon">${icons[type]||'ℹ️'}</div>
-    <div><div class="toast-title">${type==='ok'?'Готово':type==='err'?'Ошибка':'Информация'}</div>
-    <div class="toast-desc">${escapeHtml(text)}</div></div>`;
-  document.body.appendChild(t);
-  setTimeout(()=>t.remove(), duration);
+const state = {
+  tab:'normatives', search:'', fSection:'', fCat:'', fRep:'', fSrc:'',
+  calc: (() => {
+    try {
+      const saved = localStorage.getItem('esp_autosave_calc');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          return parsed.filter(item => item && item.norm && item.norm.id);
+        }
+      }
+    } catch(e) {}
+    return [];
+  })(),
+  cards: Array.isArray(JSON.parse(localStorage.getItem('esp_cards')||'[]')) ? JSON.parse(localStorage.getItem('esp_cards')||'[]') : [],
+
+  custom: Array.isArray(JSON.parse(localStorage.getItem('esp_custom')||'[]')) ? JSON.parse(localStorage.getItem('esp_custom')||'[]') : [],
+  customEquip: Array.isArray(JSON.parse(localStorage.getItem('esp_equip')||'[]')) ? JSON.parse(localStorage.getItem('esp_equip')||'[]') : [],
+  calcSearch:''
+};
+function allNorms(){return [...BASE_NORMS, ...state.custom]}
+function saveCards(){localStorage.setItem('esp_cards', JSON.stringify(state.cards))}
+function saveCustom(){localStorage.setItem('esp_custom', JSON.stringify(state.custom))}
+function saveEquip(){localStorage.setItem('esp_equip', JSON.stringify(state.customEquip))}
+
+function getFiltered(){
+  return allNorms().filter(n=>{
+    const s=state.search.toLowerCase().trim();
+    const mS = !s || n.operationName.toLowerCase().includes(s) || n.equipmentType.toLowerCase().includes(s) || n.operationCode.toLowerCase().includes(s) || (n.tm&&n.tm.toLowerCase().includes(s));
+    return mS && (!state.fSection || n.section===state.fSection)
+      && (!state.fCat || n.equipmentCategory===state.fCat)
+      && (!state.fRep || n.repairType===state.fRep)
+      && (!state.fSrc || n.sourceType===state.fSrc);
+  });
 }
 
-/* ═══════════════════════════════════════════════════════════
-   LOGIN / LOGOUT
-   ═══════════════════════════════════════════════════════════ */
-function showLogin(){
-  document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('app').classList.add('hidden');
-  const form = document.getElementById('loginForm');
-  if(form) form.reset();
-  const err = document.getElementById('loginError');
-  if(err) err.classList.remove('show');
-}
-
-function showApp(){
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('app').classList.remove('hidden');
-  renderUserBadge(); renderNav(); renderChat();
-}
-
-function renderUserBadge(){
-  const s = API.user;
-  if(!s) return;
-  const initial = (s.name || s.login).charAt(0).toUpperCase();
-  document.getElementById('userBadge').innerHTML = `
-    <div class="user-avatar">${initial}</div>
-    <div>
-      <div class="uname">${escapeHtml(s.name||s.login)}</div>
-      <div class="urole">${ROLE_NAMES[s.role]||s.role}</div>
-    </div>`;
-}
-
-async function doLogout(){
-  if(!confirm('Выйти из системы?')) return;
-  API.logout();
-  showLogin();
-}
-
-async function switchToFull(){
-  if(!confirm('↪ Переход в расширенную версию Full?\n\nВсе данные общие — вы увидите то же самое.')) return;
-  window.location.href = 'esp-full.html';
-}
-
-/* ═══════════════════════════════════════════════════════════
-   НАВИГАЦИЯ
-   ═══════════════════════════════════════════════════════════ */
 function buildNav(){
-  const role = API.user?.role || 'user';
   return [
     {group:'Работа',items:[
-      {id:'normatives',label:'Нормативы',ico:'🔍',badge:state.norms.length+''},
+      {id:'normatives',label:'Нормативы',ico:'🔍',badge:allNorms().length+''},
       {id:'calculator',label:'Калькулятор',ico:'🧮'},
-      {id:'cards',label:'Тех. карты',ico:'📄',badge:state.cards.length+''},
+      {id:'cards',label:'Тех. карты',ico:'📄'},
       {id:'statistics',label:'Статистика',ico:'📊'},
       {id:'add',label:'Добавить норматив',ico:'➕'},
       {id:'addEquip',label:'Добавить оборудование',ico:'🔧'}
@@ -480,19 +790,22 @@ function buildNav(){
 function renderNav(){
   const nav = document.getElementById('navScroll');
   const groups = buildNav();
-  const role = API.user?.role || 'user';
-  nav.innerHTML = groups.map(g => `
+  const role = AUTH.session?.role || 'user';
+  nav.innerHTML = groups.map(g=>`
     <div class="nav-section">
       <div class="nav-section-title">${g.group}</div>
-      ${g.items.map(it => {
+      ${g.items.map(it=>{
         const disabled = it.adminOnly && role !== 'admin';
         return `<div class="nav-item${state.tab===it.id?' active':''}${disabled?' admin-only':''}" ${disabled?'':`data-nav="${it.id}"`}>
-          <span class="ico">${it.ico}</span><span>${it.label}</span>${it.badge?`<span class="badge-n">${it.badge}</span>`:''}
+          <span class="ico">${it.ico}</span>
+          <span>${it.label}</span>
+          ${it.badge?`<span class="badge-n">${it.badge}</span>`:''}
         </div>`;
       }).join('')}
-    </div>`).join('');
-  nav.querySelectorAll('[data-nav]').forEach(el => {
-    el.onclick = () => {
+    </div>
+  `).join('');
+  nav.querySelectorAll('[data-nav]').forEach(el=>{
+    el.onclick=()=>{
       state.tab = el.dataset.nav;
       document.getElementById('sidebar').classList.remove('open');
       renderNav(); renderChat();
@@ -501,8 +814,8 @@ function renderNav(){
 }
 
 function appendMsg(html, delay=0){
-  return new Promise(res => {
-    setTimeout(() => {
+  return new Promise(res=>{
+    setTimeout(()=>{
       const chat = document.getElementById('chat');
       const msg = document.createElement('div');
       msg.className = 'msg';
@@ -516,83 +829,83 @@ function appendMsg(html, delay=0){
 
 function renderChat(){
   const chat = document.getElementById('chat');
-  chat.innerHTML = '';
-  const titles = {
-    normatives:'Нормативы', calculator:'Калькулятор', cards:'Тех. карты',
-    statistics:'Статистика', add:'Добавить норматив', addEquip:'Добавить оборудование',
-    equipment:'Оборудование', about:'О версии', settings:'Пользователь', users:'Пользователи'
-  };
-  document.getElementById('topbarTitle').textContent = titles[state.tab] || 'Нормативы';
+  chat.innerHTML='';
+  const titleMap = {normatives:'Нормативы', calculator:'Калькулятор', cards:'Тех. карты', statistics:'Статистика', add:'Добавить норматив', addEquip:'Добавить оборудование', equipment:'Оборудование', about:'О версии', settings:'Пользователь', users:'Пользователи'};
+  document.getElementById('topbarTitle').textContent = titleMap[state.tab] || 'Нормативы';
   const fn = TABS[state.tab];
   if(fn) fn();
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ВКЛАДКА: НОРМАТИВЫ
-   ═══════════════════════════════════════════════════════════ */
 function tabNormatives(){
   const filtered = getFiltered();
-  appendMsg(`
-    <div class="bubble-title">🔍 База нормативов</div>
-    <div class="bubble-sub" id="normsSub">Найдено: <span class="hl">${filtered.length}</span> из ${state.norms.length}</div>
+  const html = `
+    <div class="bubble-title">🔍 База нормативов трудозатрат</div>
+    <div class="bubble-sub" id="normsSub">Найдено: <span class="hl">${filtered.length}</span> из ${allNorms().length}.</div>
     <div class="norms-toolbar">
-      <input class="search-inp" id="srch" placeholder="🔎 Поиск..." value="${escapeHtml(state.search)}">
+      <input class="search-inp" id="srch" placeholder="🔎 Поиск..." value="${state.search}">
       <select class="sel" id="f-sec"><option value="">Все участки</option>${Object.entries(SECTION_NAMES).map(([k,v])=>`<option value="${k}" ${state.fSection===k?'selected':''}>${v}</option>`).join('')}</select>
       <select class="sel" id="f-cat"><option value="">Все категории</option>${Object.entries(CATEGORY_NAMES).map(([k,v])=>`<option value="${k}" ${state.fCat===k?'selected':''}>${v}</option>`).join('')}</select>
       <select class="sel" id="f-rep"><option value="">Все типы</option>${Object.entries(REPAIR_NAMES).map(([k,v])=>`<option value="${k}" ${state.fRep===k?'selected':''}>${v}</option>`).join('')}</select>
       <select class="sel" id="f-src"><option value="">Все источники</option>${Object.entries(SOURCE_NAMES).map(([k,v])=>`<option value="${k}" ${state.fSrc===k?'selected':''}>${v}</option>`).join('')}</select>
     </div>
     <div style="max-height:60vh;overflow-y:auto;padding-right:4px" id="normsListBox">${renderNormsList(filtered)}</div>
-  `).then(() => attachNormEvents());
+  `;
+  appendMsg(html).then(()=>attachNormEvents());
 }
 
 function renderNormsList(list){
   if(!list.length) return '<div class="empty"><div class="empty-ico">🔍</div>Ничего не найдено</div>';
-  return list.map(n => {
-    const inCalc = state.calc.some(c => c.norm.id === n.id);
-    const cc = n.confidenceLevel>=0.9?'#4ade80':n.confidenceLevel>=0.7?'#60a5fa':n.confidenceLevel>=0.5?'#facc15':'#f87171';
+  return list.map(n=>{
+    const inCalc = state.calc.some(c=>c.norm.id===n.id);
+    const confColor = n.confidenceLevel>=0.9?'#4ade80':n.confidenceLevel>=0.7?'#60a5fa':n.confidenceLevel>=0.5?'#facc15':'#f87171';
     return `<div class="norm-row">
       <div class="norm-row-head">
         <div class="norm-row-info">
-          <div class="norm-row-code">${escapeHtml(n.operationCode)}</div>
-          <div class="norm-row-name">${escapeHtml(n.operationName)}</div>
-          <div class="norm-row-eq">${SECTION_NAMES[n.section]||''} • ${escapeHtml(n.equipmentType||'')} • ${escapeHtml(n.equipmentUnit||'')}</div>
+          <div class="norm-row-code">${n.operationCode}</div>
+          <div class="norm-row-name">${n.operationName}</div>
+          <div class="norm-row-eq">${SECTION_NAMES[n.section]||''} • ${n.equipmentType} • ${n.equipmentUnit}</div>
           ${n.tm?`<div class="norm-row-tm"><span class="tm-code">ТМ: ${n.tm}</span></div>`:''}
         </div>
         <div class="norm-row-stats">
           <div class="norm-stat"><div class="norm-stat-v">${n.normValue}</div><div class="norm-stat-l">чел-час</div></div>
-          <div class="norm-stat"><div class="norm-stat-v" style="color:${cc};font-size:15px">${(n.confidenceLevel*100).toFixed(0)}%</div><div class="norm-stat-l">достов.</div></div>
+          <div class="norm-stat"><div class="norm-stat-v" style="color:#cbd5e1">${n.actualAvg||'—'}</div><div class="norm-stat-l">факт</div></div>
+          <div class="norm-stat"><div class="norm-stat-v" style="color:${confColor};font-size:15px">${(n.confidenceLevel*100).toFixed(0)}%</div><div class="norm-stat-l">достов.</div></div>
         </div>
         <div class="norm-row-actions">
           <button class="btn ${inCalc?'btn-success':'btn-primary'} btn-xs" data-norm-add="${n.id}">${inCalc?'✓ В расчёте':'+ В расчёт'}</button>
         </div>
       </div>
       <div class="chips" style="margin-top:8px">
-        <span class="chip chip-purple">${REPAIR_NAMES[n.repairType]||n.repairType}</span>
+        <span class="chip chip-purple">${REPAIR_NAMES[n.repairType]}</span>
         <span class="chip chip-cyan">Сложность ${n.complexity}/5</span>
-        <span class="chip chip-blue">${n.teamSize} чел. • ${escapeHtml(n.qualification||'—')}</span>
-        <span class="chip chip-green">${escapeHtml(n.sourceCode||'')}</span>
+        <span class="chip chip-blue">${n.teamSize} чел. • ${n.qualification}</span>
+        <span class="chip chip-green">${n.sourceCode}</span>
       </div>
     </div>`;
   }).join('');
 }
 
 function attachNormEvents(){
-  const s = document.getElementById('srch'); if(s) s.oninput = e => { state.search = e.target.value; refreshNormsList(); };
-  ['f-sec|fSection','f-cat|fCat','f-rep|fRep','f-src|fSrc'].forEach(p => {
-    const [id,key] = p.split('|'); const el = document.getElementById(id);
-    if(el) el.onchange = e => { state[key] = e.target.value; refreshNormsList(); };
+  const srch = document.getElementById('srch');
+  if(srch) srch.oninput = e=>{ state.search=e.target.value; refreshNormsList(); };
+  ['f-sec|fSection','f-cat|fCat','f-rep|fRep','f-src|fSrc'].forEach(p=>{
+    const [id,key]=p.split('|');
+    const el = document.getElementById(id);
+    if(el) el.onchange=e=>{ state[key]=e.target.value; refreshNormsList(); };
   });
   bindNormAddButtons();
 }
 function bindNormAddButtons(){
-  document.querySelectorAll('#normsListBox [data-norm-add]').forEach(b => {
-    b.onclick = () => {
-      const id = b.dataset.normAdd;
-      const norm = state.norms.find(n => n.id === id);
-      if(!norm) return;
-      if(!state.calc.find(c => c.norm.id === id)) state.calc.push({ norm, qty:1 });
-      b.className = 'btn btn-success btn-xs'; b.textContent = '✓ В расчёте';
+  document.querySelectorAll('#normsListBox [data-norm-add]').forEach(b=>{
+   b.onclick=()=>{
+      const id=b.dataset.normAdd;
+      const norm=allNorms().find(n=>n.id===id);
+      if(!state.calc.find(c=>c.norm.id===id)) {
+        state.calc.push({norm,qty:1});
+        localStorage.setItem('esp_autosave_calc', JSON.stringify(state.calc)); // Мгновенное сохранение
+      }
+      b.className='btn btn-success btn-xs';
+      b.textContent='✓ В расчёте';
     };
   });
 }
@@ -600,51 +913,51 @@ function refreshNormsList(){
   const box = document.getElementById('normsListBox');
   if(box){ box.innerHTML = renderNormsList(getFiltered()); bindNormAddButtons(); }
   const sub = document.getElementById('normsSub');
-  if(sub) sub.innerHTML = `Найдено: <span class="hl">${getFiltered().length}</span> из ${state.norms.length}`;
+  if(sub) sub.innerHTML = `Найдено: <span class="hl">${getFiltered().length}</span> из ${allNorms().length}.`;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ВКЛАДКА: КАЛЬКУЛЯТОР
-   ═══════════════════════════════════════════════════════════ */
 function tabCalculator(){
-  appendMsg(`
+  const html = `
     <div class="bubble-title">🧮 Калькулятор трудозатрат</div>
-    <div class="bubble-sub">В расчёте: <span class="hl">${state.calc.length}</span> операций</div>
+    <div class="bubble-sub">Добавляйте операции и формируйте техкарты. В расчёте: <span class="hl">${state.calc.length}</span> операций.</div>
     <div class="calc-wrap">
       <div>
-        <input class="search-inp" id="calc-srch" placeholder="🔎 Поиск..." value="${escapeHtml(state.calcSearch)}" style="margin-bottom:10px">
+        <input class="search-inp" id="calc-srch" placeholder="🔎 Поиск операций..." value="${state.calcSearch}" style="margin-bottom:10px">
         <div id="calcOpsBox" style="max-height:52vh;overflow-y:auto;padding-right:4px">${renderCalcOps()}</div>
       </div>
       <div class="calc-sidebar" id="calcSidebar">${renderCalcSidebar()}</div>
     </div>
-  `).then(() => attachCalcEvents());
+  `;
+  appendMsg(html).then(()=>attachCalcEvents());
 }
 function renderCalcOps(){
-  const list = state.norms.filter(n => {
-    const s = state.calcSearch.toLowerCase().trim();
-    return !s || (n.operationName||'').toLowerCase().includes(s) || (n.operationCode||'').toLowerCase().includes(s)
-      || (n.equipmentType||'').toLowerCase().includes(s) || (n.tm && n.tm.toLowerCase().includes(s));
-  }).slice(0, 80);
-  if(!list.length) return '<div class="empty"><div class="empty-ico">🔎</div>Ничего не найдено</div>';
-  return list.map(n => {
-    const inCalc = state.calc.some(c => c.norm.id === n.id);
-    return `<div class="norm-row"><div class="norm-row-head">
-      <div class="norm-row-info">
-        <div class="norm-row-code">${escapeHtml(n.operationCode)}</div>
-        <div class="norm-row-name">${escapeHtml(n.operationName)}</div>
-        <div class="norm-row-eq">${escapeHtml(n.equipmentType||'')} • ${n.normValue} чел-час</div>
+  const filteredList = allNorms().filter(n=>{
+    const s=state.calcSearch.toLowerCase().trim();
+    return !s || n.operationName.toLowerCase().includes(s) || n.operationCode.toLowerCase().includes(s) || n.equipmentType.toLowerCase().includes(s) || (n.tm&&n.tm.toLowerCase().includes(s));
+  }).slice(0,80);
+  if(!filteredList.length) return '<div class="empty"><div class="empty-ico">🔎</div>Ничего не найдено</div>';
+  return filteredList.map(n=>{
+    const inCalc = state.calc.some(c=>c.norm.id===n.id);
+    return `<div class="norm-row">
+      <div class="norm-row-head">
+        <div class="norm-row-info">
+          <div class="norm-row-code">${n.operationCode}</div>
+          <div class="norm-row-name">${n.operationName}</div>
+          <div class="norm-row-eq">${n.equipmentType} • ${n.normValue} чел-час</div>
+          ${n.tm?`<div class="norm-row-tm"><span class="tm-code" style="font-size:10px">${n.tm}</span></div>`:''}
+        </div>
+        <button class="btn ${inCalc?'btn-success':'btn-primary'} btn-xs" data-calc-add="${n.id}">${inCalc?'✓':'+ В расчёт'}</button>
       </div>
-      <button class="btn ${inCalc?'btn-success':'btn-primary'} btn-xs" data-calc-add="${n.id}">${inCalc?'✓':'+ В расчёт'}</button>
-    </div></div>`;
+    </div>`;
   }).join('');
 }
 function renderCalcSidebar(){
-  const total = state.calc.reduce((s,i) => s + i.norm.normValue*i.qty, 0);
+  const total = state.calc.reduce((s,i)=>s+i.norm.normValue*i.qty,0);
   const days = Math.ceil(total/8);
-  const avgTeam = state.calc.length ? (state.calc.reduce((s,i) => s+i.norm.teamSize, 0)/state.calc.length).toFixed(1) : '0';
-  if(!state.calc.length){
+  const avgTeam = state.calc.length?(state.calc.reduce((s,i)=>s+i.norm.teamSize,0)/state.calc.length).toFixed(1):'0';
+  if(state.calc.length===0){
     return `<div style="color:#fff;font-weight:700;font-size:14px;margin-bottom:12px">🧮 Расчёт</div>
-      <div class="empty" style="padding:20px 10px"><div class="empty-ico">🧮</div>Добавьте операции</div>`;
+      <div class="empty" style="padding:20px 10px"><div class="empty-ico">🧮</div>Добавьте операции из списка слева</div>`;
   }
   return `
     <div style="color:#fff;font-weight:700;font-size:14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center">
@@ -652,10 +965,10 @@ function renderCalcSidebar(){
       <button class="btn btn-danger btn-xs" id="calcClear">Очистить</button>
     </div>
     <div class="calc-list">
-      ${state.calc.map(it => `
+      ${state.calc.map(it=>`
         <div class="calc-item">
           <div style="flex:1;min-width:0">
-            <div class="calc-item-name">${escapeHtml(it.norm.operationName)}</div>
+            <div class="calc-item-name">${it.norm.operationName}</div>
             <div class="calc-item-meta">${it.norm.normValue} × ${it.qty} = <b style="color:#93c5fd">${it.norm.normValue*it.qty}</b></div>
           </div>
           <button class="qty-btn" data-qm="${it.norm.id}">−</button>
@@ -673,58 +986,78 @@ function renderCalcSidebar(){
     <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
       <button class="btn btn-success" id="calcCreate">📄 Создать техкарту</button>
       <button class="btn btn-ghost" id="calcExport">📥 Экспорт CSV</button>
-    </div>`;
+    </div>
+  `;
 }
 function attachCalcEvents(){
-  const s = document.getElementById('calc-srch'); if(s) s.oninput = e => { state.calcSearch = e.target.value; refreshCalcOps(); };
+  const s = document.getElementById('calc-srch');
+  if(s) s.oninput = e=>{ state.calcSearch=e.target.value; refreshCalcOps(); };
+  bindCalcOpsEvents();
   bindCalcEvents();
 }
-function refreshCalcOps(){ const b = document.getElementById('calcOpsBox'); if(b){ b.innerHTML = renderCalcOps(); bindCalcOpsEvents(); } }
-function refreshCalcSidebar(){ const b = document.getElementById('calcSidebar'); if(b){ b.innerHTML = renderCalcSidebar(); bindCalcEvents(); } }
+function refreshCalcOps(){
+  const box = document.getElementById('calcOpsBox');
+  if(box){ box.innerHTML = renderCalcOps(); bindCalcOpsEvents(); }
+}
+function refreshCalcSidebar(){
+  const sb = document.getElementById('calcSidebar');
+  if(sb){ sb.innerHTML = renderCalcSidebar(); bindCalcEvents(); }
+}
 function bindCalcOpsEvents(){
-  document.querySelectorAll('#calcOpsBox [data-calc-add]').forEach(b => {
-    b.onclick = () => {
-      const id = b.dataset.calcAdd;
-      const norm = state.norms.find(n => n.id === id);
-      if(!norm) return;
-      if(!state.calc.find(c => c.norm.id === id)) state.calc.push({ norm, qty:1 });
+  document.querySelectorAll('#calcOpsBox [data-calc-add]').forEach(b=>{
+    b.onclick=()=>{
+      const id=b.dataset.calcAdd;
+      const norm=allNorms().find(n=>n.id===id);
+      if(!state.calc.find(c=>c.norm.id===id)) {
+        state.calc.push({norm,qty:1});
+        localStorage.setItem('esp_autosave_calc', JSON.stringify(state.calc)); // Мгновенное сохранение
+      }
       refreshCalcOps(); refreshCalcSidebar();
     };
   });
 }
 function bindCalcEvents(){
-  const clr = document.getElementById('calcClear'); if(clr) clr.onclick = () => { state.calc = []; refreshCalcOps(); refreshCalcSidebar(); };
-  const crt = document.getElementById('calcCreate'); if(crt) crt.onclick = showCreateCardModal;
-  const exp = document.getElementById('calcExport'); if(exp) exp.onclick = exportCsv;
-  document.querySelectorAll('#calcSidebar [data-qm]').forEach(b => b.onclick = () => {
-    const it = state.calc.find(c => c.norm.id === b.dataset.qm); if(it && it.qty > 1) it.qty--;
+  const clr = document.getElementById('calcClear');
+  if(clr) clr.onclick = ()=>{ 
+    state.calc=[]; 
+    localStorage.setItem('esp_autosave_calc', JSON.stringify(state.calc)); // Мгновенное сохранение
+    refreshCalcOps(); 
+    refreshCalcSidebar(); 
+  };
+  const crt = document.getElementById('calcCreate');
+  if(crt) crt.onclick = showCreateCardModal;
+  const exp = document.getElementById('calcExport');
+  if(exp) exp.onclick = exportCsv;
+  document.querySelectorAll('#calcSidebar [data-qm]').forEach(b=>b.onclick=()=>{
+    const it=state.calc.find(c=>c.norm.id===b.dataset.qm); if(it&&it.qty>1) it.qty--;
+    localStorage.setItem('esp_autosave_calc', JSON.stringify(state.calc));
     refreshCalcOps(); refreshCalcSidebar();
   });
-  document.querySelectorAll('#calcSidebar [data-qp]').forEach(b => b.onclick = () => {
-    const it = state.calc.find(c => c.norm.id === b.dataset.qp); if(it) it.qty++;
+  document.querySelectorAll('#calcSidebar [data-qp]').forEach(b=>b.onclick=()=>{
+    const it=state.calc.find(c=>c.norm.id===b.dataset.qp); if(it) it.qty++;
+    localStorage.setItem('esp_autosave_calc', JSON.stringify(state.calc));
     refreshCalcOps(); refreshCalcSidebar();
   });
-  document.querySelectorAll('#calcSidebar [data-rm]').forEach(b => b.onclick = () => {
-    state.calc = state.calc.filter(c => c.norm.id !== b.dataset.rm);
+  document.querySelectorAll('#calcSidebar [data-rm]').forEach(b=>b.onclick=()=>{
+    state.calc = state.calc.filter(c=>c.norm.id!==b.dataset.rm);
+    localStorage.setItem('esp_autosave_calc', JSON.stringify(state.calc));
     refreshCalcOps(); refreshCalcSidebar();
   });
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ВКЛАДКА: ТЕХ. КАРТЫ
-   ═══════════════════════════════════════════════════════════ */
 function tabCards(){
-  appendMsg(`
+  const html = `
     <div class="bubble-title">📄 Технологические карты</div>
-    <div class="bubble-sub">Сохранено: <span class="hl">${state.cards.length}</span></div>
-    ${!state.cards.length ? '<div class="empty"><div class="empty-ico">📄</div>Создайте первую карту в калькуляторе</div>'
-      : state.cards.map(c => `
+    <div class="bubble-sub">Сохранено карт: <span class="hl">${state.cards.length}</span></div>
+    ${state.cards.length===0?`
+      <div class="empty"><div class="empty-ico">📄</div>Технологических карт пока нет. Создайте первую в калькуляторе.</div>
+    `:state.cards.map(c=>`
       <div class="tech-card">
         <div class="tech-card-head">
           <div style="flex:1;min-width:200px">
-            <div class="tech-card-num">${escapeHtml(c.cardNumber)}</div>
-            <div class="tech-card-title">${escapeHtml(c.equipmentName)}</div>
-            <div class="tech-card-meta">${REPAIR_NAMES[c.repairType]||c.repairType} • ${c.operations.length} операций • ${new Date(c.createdAt).toLocaleDateString('ru-RU')}${c.tm?' • ТМ: '+c.tm:''}</div>
+            <div class="tech-card-num">${c.cardNumber}</div>
+            <div class="tech-card-title">${c.equipmentName}</div>
+            <div class="tech-card-meta">${REPAIR_NAMES[c.repairType]} • ${c.operations.length} операций • ${new Date(c.createdAt).toLocaleDateString('ru-RU')}${c.tm?' • ТМ: '+c.tm:''}</div>
           </div>
           <div class="norm-row-stats">
             <div class="norm-stat"><div class="norm-stat-v">${c.totalHours}</div><div class="norm-stat-l">чел-час</div></div>
@@ -737,608 +1070,721 @@ function tabCards(){
           <button class="btn btn-ghost btn-xs" data-txt="${c.id}">📥 TXT</button>
           <button class="btn btn-danger btn-xs" data-del="${c.id}">🗑 Удалить</button>
         </div>
-      </div>`).join('')}
-  `).then(() => {
-    document.querySelectorAll('[data-view]').forEach(b => b.onclick = () => showViewCard(state.cards.find(c => c.id === b.dataset.view)));
-    document.querySelectorAll('[data-print]').forEach(b => b.onclick = () => printCard(state.cards.find(c => c.id === b.dataset.print)));
-    document.querySelectorAll('[data-txt]').forEach(b => b.onclick = () => {
-      const c = state.cards.find(x => x.id === b.dataset.txt);
+      </div>
+    `).join('')}
+  `;
+  appendMsg(html).then(()=>{
+    document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>showViewCard(state.cards.find(c=>c.id===b.dataset.view)));
+    document.querySelectorAll('[data-print]').forEach(b=>b.onclick=()=>printCard(state.cards.find(c=>c.id===b.dataset.print)));
+    document.querySelectorAll('[data-txt]').forEach(b=>b.onclick=()=>{
+      const c=state.cards.find(x=>x.id===b.dataset.txt);
       downloadFile(`ТК_${c.cardNumber}.txt`, generateCardText(c), 'text/plain');
     });
-    document.querySelectorAll('[data-del]').forEach(b => b.onclick = async () => {
-      if(!confirm('Удалить техкарту?')) return;
-      const r = await API.del('/api/cards/' + b.dataset.del);
-      if(r.ok){ showToast('Удалено', 'ok'); await loadAll(); renderChat(); }
-      else showToast(r.msg || 'Ошибка', 'err');
+    document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{
+      if(confirm('Удалить техкарту?')){state.cards=state.cards.filter(c=>c.id!==b.dataset.del);saveCards();renderChat();}
     });
   });
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ВКЛАДКА: СТАТИСТИКА
-   ═══════════════════════════════════════════════════════════ */
 function tabStatistics(){
-  const norms = state.norms;
-  const avgConf = norms.length ? (norms.reduce((s,n) => s+n.confidenceLevel, 0)/norms.length*100).toFixed(0) : '0';
-  const byS = {}; Object.keys(SECTION_NAMES).forEach(k => byS[k] = norms.filter(n => n.section === k).length);
-  const maxS = Math.max(1, ...Object.values(byS));
-  const byC = {}; Object.keys(CATEGORY_NAMES).forEach(k => byC[k] = norms.filter(n => n.equipmentCategory === k).length);
-  const maxC = Math.max(1, ...Object.values(byC));
-  const cc = {mechanical:'#3b82f6',energy:'#eab308',hydraulic:'#06b6d4',electric:'#22c55e',lifting:'#a855f7',refractory:'#f97316',building:'#f43f5e'};
-  const withTM = norms.filter(n => n.tm).length;
-  appendMsg(`
+  const norms=allNorms();
+  const avgConf=(norms.reduce((s,n)=>s+n.confidenceLevel,0)/norms.length*100).toFixed(0);
+  const withDev=norms.filter(n=>n.deviationPct!==undefined);
+  const avgDev=withDev.length?(withDev.reduce((s,n)=>s+n.deviationPct,0)/withDev.length).toFixed(1):'0';
+  const bySection = {};
+  Object.keys(SECTION_NAMES).forEach(k=>bySection[k]=norms.filter(n=>n.section===k).length);
+  const maxSec = Math.max(...Object.values(bySection));
+  const byCat = {};
+  Object.keys(CATEGORY_NAMES).forEach(k=>byCat[k]=norms.filter(n=>n.equipmentCategory===k).length);
+  const maxCat = Math.max(...Object.values(byCat));
+  const catColors = {mechanical:'#3b82f6',energy:'#eab308',hydraulic:'#06b6d4',electric:'#22c55e',lifting:'#a855f7',refractory:'#f97316',building:'#f43f5e'};
+  const withTM = norms.filter(n=>n.tm).length;
+  const customCount = state.custom.length;
+  const equipCount = state.customEquip.length;
+
+  const html = `
     <div class="bubble-title">📊 Статистика</div>
+    <div class="bubble-sub">Сводные данные по базе нормативов ЭСПЦ</div>
     <div class="grid4">
-      <div class="tile"><div class="tile-h">Всего</div><div class="tile-v blue">${norms.length}</div></div>
+      <div class="tile"><div class="tile-h">Всего нормативов</div><div class="tile-v blue">${norms.length}</div></div>
       <div class="tile"><div class="tile-h">Ср. достоверность</div><div class="tile-v green">${avgConf}%</div></div>
-      <div class="tile"><div class="tile-h">С ТМ-кодом</div><div class="tile-v orange">${withTM}</div><div class="tile-d">из ${norms.length}</div></div>
-      <div class="tile"><div class="tile-h">Техкарт</div><div class="tile-v purple">${state.cards.length}</div></div>
+      <div class="tile"><div class="tile-h">С ТМ-кодом</div><div class="tile-v purple">${withTM}</div><div class="tile-d">из ${norms.length}</div></div>
+      <div class="tile"><div class="tile-h">Ср. отклонение</div><div class="tile-v ${avgDev>0?'red':'green'}">${avgDev>0?'+':''}${avgDev}%</div></div>
     </div>
-    <div class="form-sec-title" style="margin-top:20px">📊 По участкам ЭСП</div>
-    ${Object.entries(SECTION_NAMES).map(([k,name]) => {
-      const c = byS[k];
-      return `<div class="stat-bar"><div class="stat-bar-h"><span class="stat-bar-name">${name}</span><span class="stat-bar-v">${c}</span></div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:${(c/maxS)*100}%;background:linear-gradient(90deg,#3b82f6,#8b5cf6)"></div></div></div>`;
+    <div class="grid2">
+      <div class="tile"><div class="tile-h">Своих нормативов</div><div class="tile-v">${customCount}</div><div class="tile-d">добавлено вами</div></div>
+      <div class="tile"><div class="tile-h">Своих единиц оборудования</div><div class="tile-v">${equipCount}</div><div class="tile-d">добавлено вами</div></div>
+    </div>
+    <div class="form-sec-title" style="margin-top:20px">📊 По участкам ЭСПЦ</div>
+    ${Object.entries(SECTION_NAMES).map(([k,name])=>{
+      const c=bySection[k];
+      return `<div class="stat-bar"><div class="stat-bar-h"><span class="stat-bar-name">${name}</span><span class="stat-bar-v">${c}</span></div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:${(c/maxSec)*100}%;background:linear-gradient(90deg,#3b82f6,#8b5cf6)"></div></div></div>`;
     }).join('')}
     <div class="form-sec-title" style="margin-top:20px">⚙️ По категориям</div>
-    ${Object.entries(CATEGORY_NAMES).map(([k,name]) => {
-      const c = byC[k];
-      return `<div class="stat-bar"><div class="stat-bar-h"><span class="stat-bar-name">${name}</span><span class="stat-bar-v">${c}</span></div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:${(c/maxC)*100}%;background:${cc[k]}"></div></div></div>`;
+    ${Object.entries(CATEGORY_NAMES).map(([k,name])=>{
+      const c=byCat[k];
+      return `<div class="stat-bar"><div class="stat-bar-h"><span class="stat-bar-name">${name}</span><span class="stat-bar-v">${c}</span></div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:${(c/maxCat)*100}%;background:${catColors[k]}"></div></div></div>`;
     }).join('')}
     <div class="form-sec-title" style="margin-top:20px">🔧 По типу ремонта</div>
     <div class="grid3">
-      ${Object.entries(REPAIR_NAMES).map(([k,v]) => {
-        const c = norms.filter(n => n.repairType === k).length;
+      ${Object.entries(REPAIR_NAMES).map(([k,v])=>{
+        const c=norms.filter(n=>n.repairType===k).length;
         return `<div class="tile" style="text-align:center"><div class="tile-v">${c}</div><div class="tile-d">${v}</div></div>`;
       }).join('')}
     </div>
-  `);
+  `;
+  appendMsg(html);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ВКЛАДКА: ДОБАВИТЬ НОРМАТИВ
-   ═══════════════════════════════════════════════════════════ */
 function tabAdd(){
-  appendMsg(`
-    <div class="bubble-title">➕ Добавить норматив</div>
-    <div class="bubble-sub">Данные сохраняются на сервере — их видят все сотрудники</div>
+  const html = `
+    <div class="bubble-title">➕ Добавление нового норматива</div>
     <div id="addFormWarn"></div>
     <form id="addForm">
       <div class="form-sec-title">📋 Основная информация</div>
       <div class="form-row">
-        <div class="form-group"><label class="form-lbl">Код операции *</label><input class="form-inp" name="operationCode" required></div>
-        <div class="form-group"><label class="form-lbl">Участок *</label><select class="form-sel" name="section">${Object.entries(SECTION_NAMES).map(([k,v]) => `<option value="${k}">${v}</option>`).join('')}</select></div>
+        <div class="form-group"><label class="form-lbl">Код операции *</label><input class="form-inp" name="operationCode" placeholder="ДСП-Н-026" required></div>
+        <div class="form-group"><label class="form-lbl">Участок ЭСПЦ *</label><select class="form-sel" name="section" required>${Object.entries(SECTION_NAMES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></div>
       </div>
-      <div class="form-group"><label class="form-lbl">Наименование *</label><input class="form-inp" name="operationName" required></div>
+      <div class="form-group"><label class="form-lbl">Наименование операции *</label><input class="form-inp" name="operationName" placeholder="Замена/ремонт..." required></div>
       <div class="form-row">
-        <div class="form-group"><label class="form-lbl">Категория *</label><select class="form-sel" name="equipmentCategory">${Object.entries(CATEGORY_NAMES).map(([k,v]) => `<option value="${k}">${v}</option>`).join('')}</select></div>
-        <div class="form-group"><label class="form-lbl">Тип ремонта</label><select class="form-sel" name="repairType">${Object.entries(REPAIR_NAMES).map(([k,v]) => `<option value="${k}">${v}</option>`).join('')}</select></div>
+        <div class="form-group"><label class="form-lbl">Категория *</label><select class="form-sel" name="equipmentCategory">${Object.entries(CATEGORY_NAMES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></div>
+        <div class="form-group"><label class="form-lbl">Тип ремонта *</label><select class="form-sel" name="repairType">${Object.entries(REPAIR_NAMES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label class="form-lbl">Тип оборудования *</label><input class="form-inp" name="equipmentType" required></div>
-        <div class="form-group"><label class="form-lbl">Единица</label><input class="form-inp" name="equipmentUnit"></div>
+        <div class="form-group"><label class="form-lbl">Тип оборудования *</label><input class="form-inp" name="equipmentType" placeholder="Электродуговая печь" required></div>
+        <div class="form-group"><label class="form-lbl">Единица оборудования</label><input class="form-inp" name="equipmentUnit" placeholder="ДСП-100"></div>
       </div>
-      <div class="form-sec-title">🏷️ ТМ</div>
+      <div class="form-sec-title">🏷️ Техническое место (ТМ)</div>
       <div class="form-group">
         <label class="form-lbl">Код ТМ</label>
-        <input class="form-inp tm" name="tm" id="tmInput" placeholder="1201-001-002-003-004-005-006" maxlength="28">
-        <div class="form-hint" id="tmHint">Формат: <code>1201-XXX-XXX-XXX-XXX-XXX-XXX</code></div>
+        <input class="form-inp tm" name="tm" id="tmInput" placeholder="1201-210-010-010" maxlength="28" autocomplete="off">
+<div class="form-hint" id="tmHint">Формат: <code>XXXX</code> или <code>XXXX-XXX</code> … до 7 групп. Пример: <code>1201</code>, <code>1221</code>, <code>1201-210-010</code></div>
       </div>
       <div class="form-sec-title">📐 Норматив</div>
       <div class="form-row">
-        <div class="form-group"><label class="form-lbl">Чел-час *</label><input class="form-inp" type="number" name="normValue" min="0.1" step="0.5" required></div>
-        <div class="form-group"><label class="form-lbl">Бригада</label><input class="form-inp" type="number" name="teamSize" value="2" min="1"></div>
+        <div class="form-group"><label class="form-lbl">Норматив (чел-час) *</label><input class="form-inp" type="number" name="normValue" min="0.1" step="0.5" required></div>
+        <div class="form-group"><label class="form-lbl">Размер бригады</label><input class="form-inp" type="number" name="teamSize" value="2" min="1"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label class="form-lbl">Квалификация</label><input class="form-inp" name="qualification"></div>
-        <div class="form-group"><label class="form-lbl">Сложность</label><select class="form-sel" name="complexity">${[1,2,3,4,5].map(i => `<option value="${i}" ${i===3?'selected':''}>${i}</option>`).join('')}</select></div>
+        <div class="form-group"><label class="form-lbl">Квалификация</label><input class="form-inp" name="qualification" placeholder="4-5 разряд"></div>
+        <div class="form-group"><label class="form-lbl">Сложность (1-5)</label><select class="form-sel" name="complexity">${[1,2,3,4,5].map(i=>`<option value="${i}" ${i===3?'selected':''}>${i}</option>`).join('')}</select></div>
       </div>
       <div class="form-sec-title">📑 Источник</div>
       <div class="form-row">
-        <div class="form-group"><label class="form-lbl">Тип</label><select class="form-sel" name="sourceType">${Object.entries(SOURCE_NAMES).map(([k,v]) => `<option value="${k}">${v}</option>`).join('')}</select></div>
-        <div class="form-group"><label class="form-lbl">Код</label><input class="form-inp" name="sourceCode"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-lbl">Достоверность</label><input class="form-inp" type="number" name="confidenceLevel" value="0.85" min="0" max="1" step="0.05"></div>
-        <div class="form-group"><label class="form-lbl">Описание</label><input class="form-inp" name="description"></div>
+        <div class="form-group"><label class="form-lbl">Тип источника</label><select class="form-sel" name="sourceType">${Object.entries(SOURCE_NAMES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></div>
+        <div class="form-group"><label class="form-lbl">Код источника</label><input class="form-inp" name="sourceCode" placeholder="ФЕРп-2001 т.18"></div>
       </div>
       <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px">
         <button type="button" class="btn btn-ghost" id="addFormReset">Сбросить</button>
-        <button type="submit" class="btn btn-primary">💾 Сохранить</button>
+        <button type="submit" class="btn btn-primary">💾 Сохранить норматив</button>
       </div>
     </form>
-  `).then(() => {
+  `;
+  appendMsg(html).then(()=>{
     const form = document.getElementById('addForm');
     const tmInp = document.getElementById('tmInput');
     const tmHint = document.getElementById('tmHint');
-    const defHint = 'Формат: <code>1201-XXX-XXX-XXX-XXX-XXX-XXX</code>';
-    tmInp.addEventListener('input', () => {
+	    // ═══ УМНЫЙ DRAG & DROP ДЛЯ ТМ ═══
+    tmInp.addEventListener('dragover', (e) => { e.preventDefault(); tmInp.style.borderColor = '#3b82f6'; });
+    tmInp.addEventListener('dragleave', (e) => { e.preventDefault(); tmInp.style.borderColor = ''; });
+    tmInp.addEventListener('drop', (e) => {
+      e.preventDefault();
+      tmInp.style.borderColor = '';
+      const file = e.dataTransfer.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const text = ev.target.result;
+        const regex = /(\b\d{4}(?:-\d{3}){0,6}\b)\s*([^\r\n]*)/g;
+        let match;
+        const items = [];
+        while ((match = regex.exec(text)) !== null) {
+          const code = match[1];
+          const name = match[2].trim();
+          if (!items.find(x => x.code === code)) items.push({ code, name });
+        }
+        
+        if (items.length === 0) { alert('ТМ-коды не найдены в файле'); return; }
+        
+        const eqType = (form.querySelector('[name="equipmentType"]')?.value || '').toLowerCase();
+        const eqUnit = (form.querySelector('[name="equipmentUnit"]')?.value || '').toLowerCase();
+        
+        let autoFound = null;
+        if (eqType || eqUnit) {
+           autoFound = items.find(i => i.name.toLowerCase().includes(eqType) || i.name.toLowerCase().includes(eqUnit));
+        }
+        
+        if (autoFound) {
+           tmInp.value = autoFound.code;
+           tmInp.dispatchEvent(new Event('input'));
+           alert('Автоподстановка: ' + autoFound.code + ' (' + autoFound.name + ')');
+           return;
+        }
+        
+        if (items.length === 1) {
+           tmInp.value = items[0].code;
+           tmInp.dispatchEvent(new Event('input'));
+           return;
+        }
+        
+        let existing = document.getElementById('tm-dnd-list');
+        if (existing) existing.remove();
+        const listDiv = document.createElement('div');
+        listDiv.id = 'tm-dnd-list';
+        listDiv.style.marginTop = '10px';
+        const sel = document.createElement('select');
+        sel.className = 'form-sel';
+        sel.innerHTML = '<option value="">-- Выберите ТМ из файла (' + items.length + ' шт.) --</option>' + 
+          items.map(function(i) { return '<option value="' + i.code + '">' + i.code + (i.name ? ' — ' + i.name : '') + '</option>'; }).join('');
+        sel.onchange = () => { if (sel.value) { tmInp.value = sel.value; tmInp.dispatchEvent(new Event('input')); } };
+        listDiv.appendChild(sel);
+        tmInp.parentNode.appendChild(listDiv);
+        alert('Найдено ' + items.length + ' ТМ-кодов. Выберите нужный в появившемся списке.');
+      };
+      reader.readAsText(file);
+    });
+    // ═════════════════════════════════
+
+    tmInp.addEventListener('input', ()=>{
       autoFormatTM(tmInp);
       const v = tmInp.value.trim();
-      if(!v){ tmInp.classList.remove('err','ok'); tmHint.className='form-hint'; tmHint.innerHTML=defHint; return; }
+      if(!v){ 
+        tmInp.classList.remove('err','ok'); 
+        tmHint.className='form-hint'; 
+        tmHint.innerHTML='Формат: <code>XXXX</code> или <code>XXXX-XXX</code> … до 7 групп. Пример: <code>1201</code>, <code>1221</code>, <code>1201-210-010</code>';
+        return; 
+      }
+      const r = validateTM(v);
+      if(r.ok){ 
+        tmInp.classList.add('ok'); 
+        tmInp.classList.remove('err'); 
+        tmHint.className='form-hint ok'; 
+        tmHint.textContent='✓ '+r.msg; 
+      }
+      else { 
+        tmInp.classList.add('err'); 
+        tmInp.classList.remove('ok'); 
+        tmHint.className='form-hint err'; 
+        tmHint.textContent='✕ '+r.msg; 
+      }
+    });
+    form.querySelector('#addFormReset').onclick = ()=>{
+      form.reset(); tmInp.classList.remove('err','ok'); tmHint.className='form-hint'; tmHint.innerHTML='Формат: <code>XXXX</code> или <code>XXXX-XXX</code> … до 7 групп. Пример: <code>1201</code>, <code>1221</code>, <code>1201-210-010</code>'; document.getElementById('addFormWarn').innerHTML='';
+    };
+    form.onsubmit = e=>{
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const tmValue = (fd.get('tm')||'').trim();
+      if(tmValue){
+        const r = validateTM(tmValue);
+        if(!r.ok){ document.getElementById('addFormWarn').innerHTML = `<div class="warn-banner err">✕ ТМ-код: ${r.msg}</div>`; return; }
+      }
+      const nv = parseFloat(fd.get('normValue'));
+      if(!isFinite(nv) || nv <= 0){ document.getElementById('addFormWarn').innerHTML = '<div class="warn-banner err">✕ Норматив должен быть > 0</div>'; return; }
+      const code = (fd.get('operationCode')||'').trim();
+      const norm = {
+        id:'custom-'+Date.now(), operationCode:code, operationName:fd.get('operationName'),
+        section:fd.get('section'), equipmentCategory:fd.get('equipmentCategory'),
+        equipmentType:fd.get('equipmentType'), equipmentUnit:fd.get('equipmentUnit')||'',
+        normValue:nv, unit:'чел-час', teamSize:parseInt(fd.get('teamSize'))||1, qualification:fd.get('qualification')||'',
+        complexity:parseInt(fd.get('complexity'))||3, sourceType:fd.get('sourceType'), sourceCode:fd.get('sourceCode')||'',
+        confidenceLevel:0.85, repairType:fd.get('repairType'),
+        toolsRequired:[], safetyRequirements:[], description:'', actualAvg:undefined, deviationPct:0,
+        tm:tmValue, isCustom:true, author:AUTH.session?.login||'unknown', createdAt:new Date().toISOString()
+      };
+      state.custom.push(norm); saveCustom();
+      appendMsg(`<div class="bubble-title">✅ Норматив добавлен</div><p>Код: <code>${norm.operationCode}</code></p>`);
+      form.reset(); tmInp.classList.remove('err','ok'); tmHint.className='form-hint'; tmHint.innerHTML='Формат: <code>XXXX</code> или <code>XXXX-XXX</code> … до 7 групп. Пример: <code>1201</code>, <code>1221</code>, <code>1201-210-010</code>'; document.getElementById('addFormWarn').innerHTML='';
+    };
+  });
+}
+
+function tabAddEquip(){
+  const html = `
+    <div class="bubble-title">🔧 Добавление нового оборудования</div>
+    <div id="addEqWarn"></div>
+    <form id="addEqForm">
+      <div class="form-sec-title">📋 Идентификация</div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-lbl">Код оборудования *</label><input class="form-inp" name="code" placeholder="ЭКВ-УПС-001" required></div>
+        <div class="form-group"><label class="form-lbl">Участок ЭСПЦ *</label><select class="form-sel" name="section" required>${Object.entries(SECTION_NAMES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></div>
+      </div>
+      <div class="form-sec-title">🏷️ Техническое место (ТМ)</div>
+      <div class="form-group">
+        <label class="form-lbl">Код ТМ</label>
+        <input class="form-inp tm" name="tm" id="tmEqInput" placeholder="1201-210-010-010" maxlength="28" autocomplete="off">
+<div class="form-hint" id="tmEqHint">Формат: <code>XXXX</code> или <code>XXXX-XXX</code> … до 7 групп. Пример: <code>1201</code>, <code>1221</code>, <code>1201-210-010</code></div>
+      <div class="form-sec-title">⚙️ Классификация</div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-lbl">Категория *</label><select class="form-sel" name="category">${Object.entries(CATEGORY_NAMES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></div>
+        <div class="form-group"><label class="form-lbl">Тип оборудования *</label><input class="form-inp" name="type" placeholder="ДСП-100" required></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-lbl">Единица / Модель *</label><input class="form-inp" name="unit" placeholder="ДСП-100" required></div>
+        <div class="form-group"><label class="form-lbl">Производитель</label><input class="form-inp" name="manufacturer" placeholder="Danieli"></div>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px">
+        <button type="button" class="btn btn-ghost" id="addEqReset">Сбросить</button>
+        <button type="submit" class="btn btn-primary">💾 Сохранить</button>
+      </div>
+    </form>
+  `;
+  appendMsg(html).then(()=>{
+    const form = document.getElementById('addEqForm');
+    const tmInp = document.getElementById('tmEqInput');
+    const tmHint = document.getElementById('tmEqHint');
+        // ═══ УМНЫЙ DRAG & DROP ДЛЯ ТМ (Оборудование) ═══
+    tmInp.addEventListener('dragover', (e) => { e.preventDefault(); tmInp.style.borderColor = '#3b82f6'; });
+    tmInp.addEventListener('dragleave', (e) => { e.preventDefault(); tmInp.style.borderColor = ''; });
+    tmInp.addEventListener('drop', (e) => {
+      e.preventDefault();
+      tmInp.style.borderColor = '';
+      const file = e.dataTransfer.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const text = ev.target.result;
+        const regex = /(\b\d{4}(?:-\d{3}){0,6}\b)\s*([^\r\n]*)/g;
+        let match;
+        const items = [];
+        while ((match = regex.exec(text)) !== null) {
+          const code = match[1];
+          const name = match[2].trim();
+          if (!items.find(x => x.code === code)) items.push({ code, name });
+        }
+        
+        if (items.length === 0) { alert('ТМ-коды не найдены в файле'); return; }
+        
+        const eqType = (form.querySelector('[name="type"]')?.value || '').toLowerCase();
+        const eqUnit = (form.querySelector('[name="unit"]')?.value || '').toLowerCase();
+        
+        let autoFound = null;
+        if (eqType || eqUnit) {
+           autoFound = items.find(i => i.name.toLowerCase().includes(eqType) || i.name.toLowerCase().includes(eqUnit));
+        }
+        
+        if (autoFound) {
+           tmInp.value = autoFound.code;
+           tmInp.dispatchEvent(new Event('input'));
+           alert('Автоподстановка: ' + autoFound.code + ' (' + autoFound.name + ')');
+           return;
+        }
+        
+        if (items.length === 1) {
+           tmInp.value = items[0].code;
+           tmInp.dispatchEvent(new Event('input'));
+           return;
+        }
+        
+        let existing = document.getElementById('tm-dnd-list');
+        if (existing) existing.remove();
+        const listDiv = document.createElement('div');
+        listDiv.id = 'tm-dnd-list';
+        listDiv.style.marginTop = '10px';
+        const sel = document.createElement('select');
+        sel.className = 'form-sel';
+        sel.innerHTML = '<option value="">-- Выберите ТМ из файла (' + items.length + ' шт.) --</option>' + 
+          items.map(function(i) { return '<option value="' + i.code + '">' + i.code + (i.name ? ' — ' + i.name : '') + '</option>'; }).join('');
+        sel.onchange = () => { if (sel.value) { tmInp.value = sel.value; tmInp.dispatchEvent(new Event('input')); } };
+        listDiv.appendChild(sel);
+        tmInp.parentNode.appendChild(listDiv);
+        alert('Найдено ' + items.length + ' ТМ-кодов. Выберите нужный в появившемся списке.');
+      };
+      reader.readAsText(file);
+    });
+    // ═══════════════════════════════════════════
+
+	tmInp.addEventListener('input', ()=>{
+      autoFormatTM(tmInp);
+      const v = tmInp.value.trim();
+      if(!v){ tmInp.classList.remove('err','ok'); tmHint.className='form-hint'; tmHint.innerHTML='Формат: <code>XXXX</code> или <code>XXXX-XXX</code> … до 7 групп. Пример: <code>1201</code>, <code>1221</code>, <code>1201-210-010</code>'; return; }
       const r = validateTM(v);
       if(r.ok){ tmInp.classList.add('ok'); tmInp.classList.remove('err'); tmHint.className='form-hint ok'; tmHint.textContent='✓ '+r.msg; }
       else { tmInp.classList.add('err'); tmInp.classList.remove('ok'); tmHint.className='form-hint err'; tmHint.textContent='✕ '+r.msg; }
     });
-    form.querySelector('#addFormReset').onclick = () => {
-      form.reset(); tmInp.classList.remove('err','ok'); tmHint.className='form-hint'; tmHint.innerHTML=defHint;
-      document.getElementById('addFormWarn').innerHTML = '';
+    form.querySelector('#addEqReset').onclick = ()=>{
+      form.reset(); tmInp.classList.remove('err','ok'); tmHint.className='form-hint'; tmHint.innerHTML='Формат: <code>XXXX</code> или <code>XXXX-XXX</code> … до 7 групп. Пример: <code>1201</code>, <code>1221</code>, <code>1201-210-010</code>'; document.getElementById('addEqWarn').innerHTML='';
     };
-    form.onsubmit = async e => {
+    form.onsubmit = e=>{
       e.preventDefault();
       const fd = new FormData(e.target);
       const tmValue = (fd.get('tm')||'').trim();
-      if(tmValue){ const r = validateTM(tmValue); if(!r.ok){ document.getElementById('addFormWarn').innerHTML = `<div class="warn-banner err">✕ ТМ: ${r.msg}</div>`; return; } }
-      const body = {
-        operationCode: (fd.get('operationCode')||'').trim(),
-        operationName: (fd.get('operationName')||'').trim(),
-        section: fd.get('section'),
-        equipmentCategory: fd.get('equipmentCategory'),
-        equipmentType: fd.get('equipmentType'),
-        equipmentUnit: fd.get('equipmentUnit') || '',
-        tm: tmValue,
-        normValue: parseFloat(fd.get('normValue')),
-        teamSize: parseInt(fd.get('teamSize')) || 2,
-        qualification: fd.get('qualification') || '',
-        complexity: parseInt(fd.get('complexity')) || 3,
-        sourceType: fd.get('sourceType'),
-        sourceCode: fd.get('sourceCode') || '',
-        confidenceLevel: parseFloat(fd.get('confidenceLevel')) || 0.7,
-        repairType: fd.get('repairType'),
-        description: fd.get('description') || ''
+      if(tmValue){
+        const r = validateTM(tmValue);
+        if(!r.ok){ document.getElementById('addEqWarn').innerHTML = `<div class="warn-banner err">✕ ТМ-код: ${r.msg}</div>`; return; }
+      }
+      const eq = {
+        id:'eq-'+Date.now(), code:fd.get('code'), section:fd.get('section'), category:fd.get('category'),
+        type:fd.get('type'), unit:fd.get('unit'), manufacturer:fd.get('manufacturer')||'',
+        tm:tmValue, author:AUTH.session?.login||'unknown', createdAt:new Date().toISOString()
       };
-      const r = await API.post('/api/norms', body);
-      if(!r.ok){ document.getElementById('addFormWarn').innerHTML = `<div class="warn-banner err">🚫 ${escapeHtml(r.msg||'Ошибка')}</div>`; return; }
-      showToast('Норматив добавлен', 'ok');
-      await refreshNorms();
-      appendMsg(`<div class="bubble-title">✅ Норматив добавлен</div><p>Код: <code>${escapeHtml(body.operationCode)}</code></p>`);
-      form.reset(); tmInp.classList.remove('err','ok'); tmHint.className='form-hint'; tmHint.innerHTML=defHint;
-      renderNav();
+      state.customEquip.push(eq); saveEquip();
+      appendMsg(`<div class="bubble-title">✅ Оборудование добавлено</div>`);
+      form.reset(); tmInp.classList.remove('err','ok'); tmHint.className='form-hint'; tmHint.innerHTML='Формат: <code>XXXX</code> или <code>XXXX-XXX</code> … до 7 групп. Пример: <code>1201</code>, <code>1221</code>, <code>1201-210-010</code>'; document.getElementById('addEqWarn').innerHTML='';
     };
   });
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ВКЛАДКА: ДОБАВИТЬ ОБОРУДОВАНИЕ
-   ═══════════════════════════════════════════════════════════ */
-function tabAddEquip(){
-  appendMsg(`
-    <div class="bubble-title">🔧 Добавить оборудование</div>
-    <div id="addEqWarn"></div>
-    <form id="addEqForm">
-      <div class="form-row">
-        <div class="form-group"><label class="form-lbl">Код *</label><input class="form-inp" name="code" required></div>
-        <div class="form-group"><label class="form-lbl">Участок *</label><select class="form-sel" name="section">${Object.entries(SECTION_NAMES).map(([k,v]) => `<option value="${k}">${v}</option>`).join('')}</select></div>
-      </div>
-      <div class="form-group"><label class="form-lbl">ТМ</label><input class="form-inp tm" name="tm" id="tmEqInput" maxlength="28"><div class="form-hint" id="tmEqHint">Формат: <code>1201-XXX-XXX-XXX-XXX-XXX-XXX</code></div></div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-lbl">Категория *</label><select class="form-sel" name="category">${Object.entries(CATEGORY_NAMES).map(([k,v]) => `<option value="${k}">${v}</option>`).join('')}</select></div>
-        <div class="form-group"><label class="form-lbl">Тип *</label><input class="form-inp" name="type" required></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-lbl">Единица *</label><input class="form-inp" name="unit" required></div>
-        <div class="form-group"><label class="form-lbl">Производитель</label><input class="form-inp" name="manufacturer"></div>
-      </div>
-      <div style="display:flex;justify-content:flex-end;margin-top:16px"><button type="submit" class="btn btn-primary">💾 Сохранить</button></div>
-    </form>
-  `).then(() => {
-    const form = document.getElementById('addEqForm');
-    const tmInp = document.getElementById('tmEqInput');
-    const tmHint = document.getElementById('tmEqHint');
-    tmInp.addEventListener('input', () => {
-      autoFormatTM(tmInp);
-      const v = tmInp.value.trim();
-      if(!v){ tmHint.className='form-hint'; tmHint.innerHTML='Формат: <code>1201-XXX-XXX-XXX-XXX-XXX-XXX</code>'; return; }
-      const r = validateTM(v);
-      if(r.ok){ tmHint.className='form-hint ok'; tmHint.textContent='✓ '+r.msg; }
-      else { tmHint.className='form-hint err'; tmHint.textContent='✕ '+r.msg; }
-    });
-    form.onsubmit = async e => {
-      e.preventDefault();
-      const fd = new FormData(e.target);
-      const body = {
-        code: (fd.get('code')||'').trim(),
-        section: fd.get('section'),
-        category: fd.get('category'),
-        type: fd.get('type'),
-        unit: fd.get('unit'),
-        tm: (fd.get('tm')||'').trim(),
-        manufacturer: fd.get('manufacturer')||''
-      };
-      const r = await API.post('/api/equipment', body);
-      if(!r.ok){ document.getElementById('addEqWarn').innerHTML = `<div class="warn-banner err">✕ ${escapeHtml(r.msg||'Ошибка')}</div>`; return; }
-      showToast('Оборудование добавлено', 'ok');
-      const eq = await API.get('/api/equipment');
-      if(eq.ok) state.equipment = eq.equipment || [];
-      appendMsg('<div class="bubble-title">✅ Оборудование добавлено</div>');
-      form.reset(); tmHint.className='form-hint'; tmHint.innerHTML='Формат: <code>1201-XXX-XXX-XXX-XXX-XXX-XXX</code>';
-    };
-  });
-}
-
-/* ═══════════════════════════════════════════════════════════
-   ВКЛАДКА: ОБОРУДОВАНИЕ
-   ═══════════════════════════════════════════════════════════ */
 function tabEquipment(){
-  appendMsg(`
-    <div class="bubble-title">⚙️ Оборудование</div>
-    <div class="form-sec-title">🔧 Справочник (${state.equipment.length})</div>
-    ${state.equipment.length ? state.equipment.map(eq => `
+  const eqBySection = {};
+  allNorms().forEach(n=>{
+    if(!eqBySection[n.section]) eqBySection[n.section]={types:new Set(),ops:0};
+    eqBySection[n.section].types.add(n.equipmentType);
+    eqBySection[n.section].ops++;
+  });
+  const html = `
+    <div class="bubble-title">⚙️ Оборудование и ТМ</div>
+    <div class="form-sec-title" style="margin-top:14px">🏭 По участкам ЭСПЦ</div>
+    ${Object.entries(eqBySection).map(([sec,data])=>`
       <div class="tile" style="margin-bottom:8px">
-        <div style="display:flex;justify-content:space-between">
-          <div>
-            <div style="font-family:monospace;color:#93c5fd">${escapeHtml(eq.code)}</div>
-            <div style="color:#fff;font-weight:600">${escapeHtml(eq.type)} — ${escapeHtml(eq.unit)}</div>
-            <div style="color:var(--muted);font-size:11.5px">${SECTION_NAMES[eq.section]||eq.section}</div>
-            ${eq.tm?`<div><span class="tm-code">ТМ: ${eq.tm}</span></div>`:''}
-          </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:6px">
+          <span style="color:#fff;font-weight:700;font-size:13.5px">${SECTION_NAMES[sec]}</span>
+          <span class="badge-mini">${data.types.size} типов • ${data.ops} операций</span>
         </div>
-      </div>`).join('') : '<div class="empty">Пока нет оборудования</div>'}
-  `);
+        <div style="display:flex;flex-wrap:wrap;gap:4px">${[...data.types].map(t=>`<span class="chip chip-blue" style="font-size:10.5px">${t}</span>`).join('')}</div>
+      </div>
+    `).join('')}
+    <div class="form-sec-title" style="margin-top:16px">🔧 Пользовательское оборудование (${state.customEquip.length})</div>
+    ${state.customEquip.length===0?`
+      <div class="empty"><div class="empty-ico">🔧</div>Пока нет</div>
+    `:state.customEquip.map(eq=>`
+      <div class="tile" style="margin-bottom:8px;border-color:rgba(34,197,94,.5)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap">
+              <span style="font-family:monospace;font-size:11.5px;color:#93c5fd;font-weight:600">${eq.code}</span>
+              <span class="chip chip-green" style="font-size:10px">${SECTION_NAMES[eq.section]||eq.section}</span>
+            </div>
+            <div style="color:#fff;font-weight:600;font-size:13.5px">${eq.type} — ${eq.unit}</div>
+            ${eq.tm?`<div style="margin-top:6px"><span class="tm-code">ТМ: ${eq.tm}</span></div>`:''}
+          </div>
+          <button class="btn btn-danger btn-xs" data-del-eq="${eq.id}">🗑 Удалить</button>
+        </div>
+      </div>
+    `).join('')}
+  `;
+  appendMsg(html).then(()=>{
+    document.querySelectorAll('[data-del-eq]').forEach(b=>b.onclick=()=>{
+      if(confirm('Удалить?')){ state.customEquip = state.customEquip.filter(e=>e.id!==b.dataset.delEq); saveEquip(); renderChat(); }
+    });
+  });
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ВКЛАДКА: О ВЕРСИИ
-   ═══════════════════════════════════════════════════════════ */
 function tabAbout(){
+  const g = window.ESP_GUARD || {};
   appendMsg(`
-    <div class="bubble-title">ℹ️ О версии Lite (серверная)</div>
-    <p>Данная версия работает через сервер. Все данные хранятся в единой базе и <b>видны всем сотрудникам сразу</b>.</p>
-    <div class="form-sec-title" style="margin-top:16px">✅ Что есть</div>
-    <ul>
-      <li>База нормативов (общая)</li>
-      <li>Поиск, фильтры, статистика</li>
-      <li>Калькулятор и техкарты</li>
-      <li>Добавление нормативов и оборудования</li>
-      <li>Аутентификация с ролями: admin / engineer / user</li>
-      <li>Хеширование паролей (bcrypt) на сервере</li>
-      <li>JWT-сессии с истечением</li>
-    </ul>
-    <div class="form-sec-title" style="margin-top:16px">🚀 В версии Full</div>
-    <ul>
-      <li>Workflow согласования</li>
-      <li>Версионирование</li>
-      <li>Импорт PRO (XLSX, профили, upsert)</li>
-      <li>ML-прогноз</li>
-      <li>Экспорт XLSX / PDF / DOCX</li>
-      <li>Управление пользователями</li>
-    </ul>
-    <div class="form-sec-title" style="margin-top:16px">👤 Текущий пользователь</div>
+    <div class="bubble-title">ℹ️ О версии Lite</div>
+    <p>Эта <b>ограниченная версия</b> предназначена для первичной работы инженеров.</p>
+    <div class="form-sec-title" style="margin-top:16px">🔒 Лицензия</div>
     <div class="tile">
-      <div style="color:#fff;font-weight:600">${escapeHtml(API.user?.name||'—')}</div>
-      <div style="color:var(--muted);font-size:12px">Логин: <code>${escapeHtml(API.user?.login||'—')}</code></div>
-      <div class="badge-role ${API.user?.role||'user'}" style="margin-top:6px;display:inline-block">${ROLE_NAMES[API.user?.role||'user']}</div>
+      <p><b>Продукт:</b> ESP Lite V5.0</p>
+      <p><b>Лицензия:</b> <code>${g.licenseId||'—'}</code></p>
+      <p><b>Водяной знак:</b> <span style="font-family:ui-monospace;font-size:11.5px;color:#93c5fd">${g.watermark||''}</span></p>
     </div>
   `);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ВКЛАДКА: НАСТРОЙКИ
-   ═══════════════════════════════════════════════════════════ */
 function tabSettings(){
-  const s = API.user;
-  appendMsg(`
+  const s = AUTH.session;
+  const html = `
     <div class="bubble-title">👤 Настройки пользователя</div>
+    <div class="bubble-sub">Управление учётной записью и данными</div>
+
+    <div class="form-sec-title">🪪 Профиль</div>
     <div class="tile">
-      <div style="display:flex;align-items:center;gap:12px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
         <div class="user-avatar" style="width:48px;height:48px;font-size:22px">${(s?.name||'?').charAt(0).toUpperCase()}</div>
         <div>
-          <div style="color:#fff;font-weight:700;font-size:15px">${escapeHtml(s?.name||'—')}</div>
-          <div style="color:var(--muted);font-size:12px">Логин: <code>${escapeHtml(s?.login||'—')}</code></div>
+          <div style="color:#fff;font-weight:700;font-size:15px">${s?.name||'—'}</div>
+          <div style="color:var(--muted);font-size:12px">Логин: <code>${s?.login||'—'}</code></div>
         </div>
       </div>
-      <span class="badge-role ${s?.role||'user'}" style="margin-top:10px;display:inline-block">${ROLE_NAMES[s?.role||'user']}</span>
+      <span class="badge-role ${s?.role||'user'}">${ROLE_NAMES[s?.role||'user']}</span>
     </div>
-    <div class="form-sec-title" style="margin-top:16px">📊 Сводка</div>
-    <div class="grid3">
-      <div class="tile" style="text-align:center"><div class="tile-v blue">${state.norms.length}</div><div class="tile-d">Нормативов всего</div></div>
-      <div class="tile" style="text-align:center"><div class="tile-v green">${state.equipment.length}</div><div class="tile-d">Оборудования</div></div>
-      <div class="tile" style="text-align:center"><div class="tile-v purple">${state.cards.length}</div><div class="tile-d">Техкарт</div></div>
+
+    <div class="form-sec-title" style="margin-top:16px">🔑 Смена пароля</div>
+    <form id="pwdForm">
+      <div class="form-group">
+        <label class="form-lbl">Текущий пароль</label>
+        <input class="form-inp" type="password" name="oldPwd" required autocomplete="current-password">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-lbl">Новый пароль (мин. 6 символов)</label>
+          <input class="form-inp" type="password" name="newPwd" minlength="6" required autocomplete="new-password">
+        </div>
+        <div class="form-group">
+          <label class="form-lbl">Повторите пароль</label>
+          <input class="form-inp" type="password" name="newPwd2" minlength="6" required autocomplete="new-password">
+        </div>
+      </div>
+      <div id="pwdMsg"></div>
+      <div style="display:flex;justify-content:flex-end;margin-top:8px">
+        <button type="submit" class="btn btn-primary">🔐 Сменить пароль</button>
+      </div>
+    </form>
+
+    <div class="form-sec-title" style="margin-top:20px">💾 Резервное копирование</div>
+    <div class="grid2">
+      <div class="tile"><button class="btn btn-success btn-xs" id="expAll">📥 Скачать JSON</button></div>
+      <div class="tile"><input type="file" id="impFile" accept=".json" style="display:none"><button class="btn btn-ghost btn-xs" id="impBtn">📤 Загрузить JSON</button></div>
     </div>
-    <div class="warn-banner info" style="margin-top:16px">
-      ℹ️ <div>Смена пароля и управление пользователями доступны только в <b>Full-версии</b>. Перейдите по кнопке <b>↪ Full</b> в топбаре.</div>
-    </div>
-  `);
+  `;
+  appendMsg(html).then(()=>{
+    // Обработчик смены пароля
+    document.getElementById('pwdForm').onsubmit = async e=>{
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const oldP = fd.get('oldPwd'), newP = fd.get('newPwd'), newP2 = fd.get('newPwd2');
+      const msg = document.getElementById('pwdMsg');
+      const u = AUTH.users.find(x=>x.login === s.login);
+      if(!u){ msg.innerHTML = '<div class="warn-banner err">✕ Пользователь не найден</div>'; return; }
+      const ok = await verifyPwd(oldP, u.password);
+      if(!ok){ msg.innerHTML = '<div class="warn-banner err">✕ Текущий пароль неверен</div>'; return; }
+      if(newP !== newP2){ msg.innerHTML = '<div class="warn-banner err">✕ Пароли не совпадают</div>'; return; }
+      if(newP.length < 6){ msg.innerHTML = '<div class="warn-banner err">✕ Минимум 6 символов</div>'; return; }
+      u.password = await hashPwd(newP); saveUsers();
+      msg.innerHTML = '<div class="warn-banner ok">✓ Пароль успешно изменён</div>';
+      e.target.reset();
+    };
+    
+    // Обработчики бэкапа
+    document.getElementById('expAll').onclick = ()=>{
+      const data = {_meta:{app:'ESP Lite V4.10', date:new Date().toISOString()}, custom: state.custom, customEquip: state.customEquip, cards: state.cards};
+      downloadFile(`esp_backup_${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(data, null, 2), 'application/json');
+    };
+    document.getElementById('impBtn').onclick = ()=>document.getElementById('impFile').click();
+    document.getElementById('impFile').onchange = (ev)=>{
+      const file = ev.target.files[0]; if(!file) return;
+      const reader = new FileReader();
+      reader.onload = ()=>{
+        try{
+          const data = JSON.parse(reader.result);
+          if(!confirm('Импортировать данные? Текущие будут заменены.')) return;
+          state.custom = Array.isArray(data.custom) ? data.custom : []; saveCustom();
+          state.customEquip = Array.isArray(data.customEquip) ? data.customEquip : []; saveEquip();
+          state.cards = Array.isArray(data.cards) ? data.cards : []; saveCards();
+          alert('Импорт выполнен'); renderChat();
+        }catch(e){ alert('Ошибка чтения JSON'); }
+      };
+      reader.readAsText(file);
+      ev.target.value='';
+    };
+  });
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ВКЛАДКА: ПОЛЬЗОВАТЕЛИ (admin)
-   ═══════════════════════════════════════════════════════════ */
-async function tabUsers(){
-  if(API.user?.role !== 'admin'){
-    appendMsg('<div class="warn-banner err">✕ Доступ только для администратора</div>');
-    return;
-  }
-  const r = await API.get('/api/users');
-  const users = r.ok ? r.users : [];
-  appendMsg(`
-    <div class="bubble-title">👥 Управление пользователями</div>
-    <div class="bubble-sub">Всего: <span class="hl">${users.length}</span>. Пароли хранятся в виде bcrypt-хешей на сервере.</div>
+function tabUsers(){
+  if(AUTH.session?.role !== 'admin'){ appendMsg('<div class="warn-banner err">✕ Доступ только для администратора</div>'); return; }
+  
+  const rawUsers = AUTH.users.map(u => {
+    return { ...u, isHashed: isHashed(u.password) };
+  });
+
+  const html = `
+    <div class="bubble-title">👥 Пользователи</div>
     <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px">
-      ${users.map(u => `
-        <div class="tile" style="border-color:${u.login===API.user.login?'rgba(37,99,235,.6)':'var(--border)'}">
+      ${rawUsers.map(u=>`
+        <div class="tile">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
             <div style="flex:1;min-width:180px">
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-                <span style="font-family:monospace;color:#93c5fd">${escapeHtml(u.login)}</span>
-                ${u.login===API.user.login?'<span class="badge-mini">это вы</span>':''}
-                <span class="badge-mini" title="Хеш bcrypt">🔒 хеш</span>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap">
+                <span style="font-family:monospace;font-size:12px;color:#93c5fd;font-weight:600">${u.login}</span>
+                ${u.login===AUTH.session.login?'<span class="badge-mini">вы</span>':''}
+                ${u.isHashed ? '<span class="badge-mini" style="color:#86efac;border:1px solid rgba(34,197,94,.4);background:rgba(34,197,94,.1)">🔒 хеш</span>' : '<span class="badge-mini" style="color:#fca5a5;border:1px solid rgba(220,38,38,.4);background:rgba(220,38,38,.1)">⚠ plaintext</span>'}
               </div>
-              <div style="color:#fff;font-weight:600">${escapeHtml(u.name)}</div>
+              <div style="color:#fff;font-weight:600;font-size:13.5px">${u.name}</div>
               <div style="margin-top:6px"><span class="badge-role ${u.role}">${ROLE_NAMES[u.role]||u.role}</span></div>
             </div>
             <div style="display:flex;gap:6px">
-              ${u.login!==API.user.login?`<button class="btn btn-ghost btn-xs" data-reset-pwd="${escapeHtml(u.login)}">🔑 Сбросить пароль</button>`:''}
-              ${u.login!==API.user.login?`<button class="btn btn-danger btn-xs" data-del-user="${escapeHtml(u.login)}">🗑 Удалить</button>`:''}
+              ${u.login!==AUTH.session.login?`<button class="btn btn-ghost btn-xs" data-reset-pwd="${u.login}">🔑 Сбросить пароль</button>`:''}
+              ${u.login!==AUTH.session.login?`<button class="btn btn-danger btn-xs" data-del-user="${u.login}">🗑 Удалить</button>`:''}
             </div>
           </div>
-        </div>`).join('')}
+        </div>
+      `).join('')}
     </div>
-    <div class="form-sec-title">➕ Добавить пользователя</div>
-    <form id="addUserForm">
-      <div class="form-row">
-        <div class="form-group"><label class="form-lbl">Логин *</label><input class="form-inp" name="login" required pattern="[a-zA-Z0-9_]{3,20}"></div>
-        <div class="form-group"><label class="form-lbl">ФИО *</label><input class="form-inp" name="name" required></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-lbl">Пароль * (мин. 6)</label><input class="form-inp" type="password" name="password" minlength="6" required></div>
-        <div class="form-group"><label class="form-lbl">Роль *</label><select class="form-sel" name="role"><option value="user">Пользователь</option><option value="engineer">Инженер</option><option value="admin">Администратор</option></select></div>
-      </div>
-      <div id="userMsg"></div>
-      <div style="display:flex;justify-content:flex-end;margin-top:8px"><button type="submit" class="btn btn-primary">➕ Добавить</button></div>
-    </form>
-  `).then(() => {
-    document.querySelectorAll('[data-del-user]').forEach(b => b.onclick = async () => {
-      if(!confirm(`Удалить "${b.dataset.delUser}"?`)) return;
-      const r = await API.del('/api/users/' + encodeURIComponent(b.dataset.delUser));
-      if(r.ok) renderChat(); else alert(r.msg);
+  `;
+  appendMsg(html).then(()=>{
+    document.querySelectorAll('[data-del-user]').forEach(b=>b.onclick=()=>{
+      const login = b.dataset.delUser;
+      if(confirm(`Удалить "${login}"?`)){ AUTH.users = AUTH.users.filter(u=>u.login !== login); saveUsers(); renderChat(); }
     });
-    document.querySelectorAll('[data-reset-pwd]').forEach(b => b.onclick = async () => {
-      const login = b.dataset.resetPwd;
-      const np = prompt(`Новый пароль для "${login}" (мин. 6 символов):`);
-      if(np === null) return;
-      if(np.length < 6){ alert('Минимум 6 символов'); return; }
-      const r = await API.post('/api/users/' + encodeURIComponent(login) + '/reset-password', { password: np });
-      if(r.ok){ alert(`Пароль для "${login}" изменён`); }
-      else alert(r.msg);
+    
+    document.querySelectorAll('[data-reset-pwd]').forEach(b=>b.onclick=()=>{
+      showAdminResetPasswordModal(b.dataset.resetPwd);
     });
-    document.getElementById('addUserForm').onsubmit = async e => {
-      e.preventDefault();
-      const fd = new FormData(e.target);
-      const r = await API.post('/api/users', {
-        login: (fd.get('login')||'').trim(),
-        password: fd.get('password'),
-        name: fd.get('name'),
-        role: fd.get('role')
-      });
-      if(r.ok){ alert('Добавлен'); renderChat(); }
-      else document.getElementById('userMsg').innerHTML = `<div class="warn-banner err">✕ ${escapeHtml(r.msg)}</div>`;
-    };
   });
 }
 
-/* ═══════════════════════════════════════════════════════════
-   МОДАЛКИ
-   ═══════════════════════════════════════════════════════════ */
-function showCreateCardModal(){
-  const total = state.calc.reduce((s,i) => s + i.norm.normValue*i.qty, 0);
-  const days = Math.ceil(total/8);
-  const num = `ТК-${new Date().getFullYear()}-${String(state.cards.length+1).padStart(3,'0')}`;
+function showAdminResetPasswordModal(login){
   const m = document.createElement('div');
   m.className = 'modal-ov';
+  m.innerHTML = '<div class="modal" style="max-width:480px">' +
+    '<div class="modal-head"><div class="modal-title">🔑 Сброс пароля</div><button class="modal-close" type="button" data-close>×</button></div>' +
+    '<div class="modal-body">' +
+    '<div class="warn-banner info">ℹ️ Вы меняете пароль для пользователя <b>' + escapeHtml(login) + '</b>.</div>' +
+    '<div class="form-group"><label class="form-lbl">Новый пароль (мин. 6 символов) *</label><input class="form-inp" type="password" id="admin-reset-pwd" minlength="6" required></div>' +
+    '<div class="form-group"><label class="form-lbl">Повторите пароль *</label><input class="form-inp" type="password" id="admin-reset-pwd2" minlength="6" required></div>' +
+    '<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:18px"><button class="btn btn-ghost" type="button" data-close>Отмена</button><button class="btn btn-orange" type="button" id="admin-reset-save">💾 Сменить пароль</button></div>' +
+    '</div></div>';
+  document.body.appendChild(m);
+  
+  m.querySelectorAll('[data-close]').forEach(b => b.onclick = () => m.remove());
+  
+  document.getElementById('admin-reset-save').onclick = async () => {
+    const p1 = document.getElementById('admin-reset-pwd').value;
+    const p2 = document.getElementById('admin-reset-pwd2').value;
+    if(p1 !== p2){ alert('Пароли не совпадают'); return; }
+    if(p1.length < 6){ alert('Минимум 6 символов'); return; }
+    
+    const u = AUTH.users.find(x=>x.login === login);
+    if(!u){ alert('Пользователь не найден'); return; }
+    
+    u.password = await hashPwd(p1);
+    saveUsers();
+    alert('Пароль для "' + login + '" успешно изменён.');
+    m.remove();
+    renderChat();
+  };
+}
+
+function showCreateCardModal(){
+  const total = state.calc.reduce((s,i)=>s+i.norm.normValue*i.qty,0);
+  const days = Math.ceil(total/8);
+  const num = `ТК-${new Date().getFullYear()}-${String(state.cards.length+1).padStart(3,'0')}`;
+  const m = document.createElement('div'); m.className='modal-ov';
   m.innerHTML = `
     <div class="modal">
-      <div class="modal-head">
-        <div class="modal-title">📄 Создание техкарты</div>
-        <button class="modal-close" data-close>×</button>
-      </div>
+      <div class="modal-head"><div class="modal-title">📄 Создание техкарты</div><button class="modal-close" data-close>×</button></div>
       <div class="modal-body">
         <div class="form-group"><label class="form-lbl">Номер карты *</label><input class="form-inp" id="cc-num" value="${num}"></div>
         <div class="form-row">
           <div class="form-group"><label class="form-lbl">Тип ремонта *</label><select class="form-sel" id="cc-rep"><option>ТР</option><option selected>СР</option><option>КР</option></select></div>
           <div class="form-group"><label class="form-lbl">Оборудование *</label><input class="form-inp" id="cc-eq" value="ДСП-100 №1"></div>
         </div>
-        <div class="form-group">
-          <label class="form-lbl">ТМ</label>
-          <input class="form-inp tm" id="cc-tm" maxlength="28">
-          <div class="form-hint" id="cc-tm-hint">Необязательно</div>
-        </div>
-        <div class="grid3" style="margin-top:12px">
-          <div class="tile" style="text-align:center"><div class="tile-v">${state.calc.length}</div><div class="tile-d">Операций</div></div>
-          <div class="tile" style="text-align:center"><div class="tile-v orange">${total}</div><div class="tile-d">Чел-час</div></div>
-          <div class="tile" style="text-align:center"><div class="tile-v purple">${days}</div><div class="tile-d">Дней</div></div>
-        </div>
-        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:18px">
-          <button class="btn btn-ghost" data-close>Отмена</button>
-          <button class="btn btn-primary" id="cc-save">💾 Создать</button>
-        </div>
+        <div class="form-group"><label class="form-lbl">ТМ</label><input class="form-inp tm" id="cc-tm" placeholder="1201-XXX-XXX-XXX-XXX-XXX-XXX" maxlength="28"></div>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:18px"><button class="btn btn-ghost" data-close>Отмена</button><button class="btn btn-primary" id="cc-save">💾 Создать</button></div>
       </div>
     </div>`;
   document.body.appendChild(m);
   const tmInp = m.querySelector('#cc-tm');
-  const tmHint = m.querySelector('#cc-tm-hint');
-  tmInp.addEventListener('input', () => {
-    autoFormatTM(tmInp);
-    const v = tmInp.value.trim();
-    if(!v){ tmHint.className='form-hint'; tmHint.textContent='Необязательно'; return; }
-    const r = validateTM(v);
-    if(r.ok){ tmHint.className='form-hint ok'; tmHint.textContent='✓ '+r.msg; }
-    else { tmHint.className='form-hint err'; tmHint.textContent='✕ '+r.msg; }
-  });
-  m.querySelectorAll('[data-close]').forEach(b => b.onclick = () => m.remove());
-  document.getElementById('cc-save').onclick = async () => {
+  tmInp.addEventListener('input', ()=>autoFormatTM(tmInp));
+  m.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>m.remove());
+  document.getElementById('cc-save').onclick = ()=>{
     const tmValue = (tmInp.value||'').trim();
     if(tmValue){ const r = validateTM(tmValue); if(!r.ok){ alert('ТМ: '+r.msg); return; } }
-    const body = {
-      cardNumber: document.getElementById('cc-num').value,
-      equipmentName: document.getElementById('cc-eq').value,
-      tm: tmValue,
-      repairType: document.getElementById('cc-rep').value,
-      operations: state.calc.map(i => ({ normativeId: i.norm.id, quantity: i.qty })),
-      totalHours: total,
-      calendarDays: days
-    };
-    const r = await API.post('/api/cards', body);
-    if(!r.ok){ alert(r.msg || 'Ошибка создания карты'); return; }
-    showToast('Техкарта создана', 'ok');
-    state.calc = [];
-    await loadAll();
-    m.remove();
-    state.tab = 'cards'; renderNav(); renderChat();
+    const card = { id:Date.now()+'', cardNumber:document.getElementById('cc-num').value, equipmentName:document.getElementById('cc-eq').value, tm: tmValue, repairType:document.getElementById('cc-rep').value, operations:state.calc.map(i=>({normativeId:i.norm.id,quantity:i.qty})), totalHours:total, calendarDays:days, createdAt:new Date().toISOString(), author:AUTH.session?.login||'unknown' };
+    state.cards.push(card); saveCards(); state.calc=[]; m.remove(); state.tab='cards'; renderNav(); renderChat();
   };
 }
 
 function showViewCard(card){
   if(!card) return;
-  const m = document.createElement('div');
-  m.className = 'modal-ov';
-  const rows = card.operations.map((op, i) => {
-    const n = state.norms.find(x => x.id === op.normativeId);
-    if(!n) return '';
-    return `<tr style="border-top:1px solid var(--border-soft)">
-      <td style="padding:8px 12px;color:var(--dim)">${i+1}</td>
-      <td style="padding:8px 12px;font-family:monospace;font-size:11px;color:#93c5fd">${escapeHtml(n.operationCode)}</td>
-      <td style="padding:8px 12px;color:#fff">${escapeHtml(n.operationName)}${n.tm?`<br><span class="tm-code" style="font-size:9.5px;margin-top:3px">${n.tm}</span>`:''}</td>
-      <td style="padding:8px 12px;text-align:center">${n.normValue}</td>
-      <td style="padding:8px 12px;text-align:center">${op.quantity}</td>
-      <td style="padding:8px 12px;text-align:center;font-weight:700">${n.normValue*op.quantity}</td>
-    </tr>`;
+  const m = document.createElement('div'); m.className='modal-ov';
+  const rows = card.operations.map((op,i)=>{
+    const n = allNorms().find(x=>x.id===op.normativeId); if(!n) return '';
+    return `<tr style="border-top:1px solid var(--border-soft)"><td style="padding:8px 12px">${i+1}</td><td style="padding:8px 12px">${n.operationCode}</td><td style="padding:8px 12px">${n.operationName}</td><td style="padding:8px 12px">${n.normValue}</td><td style="padding:8px 12px">${op.quantity}</td><td style="padding:8px 12px">${n.normValue*op.quantity}</td></tr>`;
   }).join('');
-  m.innerHTML = `
-    <div class="modal" style="max-width:900px">
-      <div class="modal-head">
-        <div>
-          <div class="modal-title">${escapeHtml(card.cardNumber)}</div>
-          <div style="color:var(--muted);font-size:12px">${escapeHtml(card.equipmentName)}${card.tm?' • ТМ: '+card.tm:''}</div>
-        </div>
-        <button class="modal-close" data-close>×</button>
-      </div>
-      <div class="modal-body">
-        <div class="grid3" style="margin-bottom:14px">
-          <div class="tile" style="text-align:center"><div class="tile-v">${card.totalHours}</div><div class="tile-d">чел-час</div></div>
-          <div class="tile" style="text-align:center"><div class="tile-v orange">${card.calendarDays}</div><div class="tile-d">дней</div></div>
-          <div class="tile" style="text-align:center"><div class="tile-v purple">${card.operations.length}</div><div class="tile-d">операций</div></div>
-        </div>
-        <div style="background:#111827;border-radius:10px;overflow-x:auto;border:1px solid var(--border)">
-          <table style="width:100%;font-size:13px;border-collapse:collapse">
-            <thead><tr style="background:#374151;color:var(--muted);font-size:11px;text-transform:uppercase">
-              <th style="padding:8px 12px;text-align:left">№</th>
-              <th style="padding:8px 12px;text-align:left">Код</th>
-              <th style="padding:8px 12px;text-align:left">Операция</th>
-              <th style="padding:8px 12px;text-align:center">Норма</th>
-              <th style="padding:8px 12px;text-align:center">Кол-во</th>
-              <th style="padding:8px 12px;text-align:center">Итого</th>
-            </tr></thead>
-            <tbody>${rows}</tbody>
-          </table>
-        </div>
-        <div style="display:flex;gap:8px;margin-top:16px">
-          <button class="btn btn-success" id="cardPrint">🖨 Печать</button>
-          <button class="btn btn-ghost" id="cardTxt">📥 TXT</button>
-        </div>
-      </div>
-    </div>`;
+  m.innerHTML = `<div class="modal"><div class="modal-head"><div class="modal-title">${card.cardNumber}</div><button class="modal-close" data-close>×</button></div><div class="modal-body"><div style="background:#111827;border-radius:10px;overflow-x:auto;border:1px solid var(--border)"><table style="width:100%;font-size:13px;border-collapse:collapse"><thead><tr style="background:#374151"><th style="padding:8px 12px">№</th><th style="padding:8px 12px">Код</th><th style="padding:8px 12px">Операция</th><th style="padding:8px 12px">Норма</th><th style="padding:8px 12px">Кол-во</th><th style="padding:8px 12px">Итого</th></tr></thead><tbody>${rows}</tbody></table></div><div style="display:flex;gap:8px;margin-top:16px"><button class="btn btn-success" id="cardPrint">🖨 Печать</button><button class="btn btn-ghost" id="cardTxt">📥 TXT</button></div></div></div>`;
   document.body.appendChild(m);
-  m.querySelectorAll('[data-close]').forEach(b => b.onclick = () => m.remove());
-  m.querySelector('#cardPrint').onclick = () => printCard(card);
-  m.querySelector('#cardTxt').onclick = () => downloadFile(`ТК_${card.cardNumber}.txt`, generateCardText(card), 'text/plain');
+  m.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>m.remove());
+  m.querySelector('#cardPrint').onclick = ()=>printCard(card);
+  m.querySelector('#cardTxt').onclick = ()=>downloadFile(`ТК_${card.cardNumber}.txt`, generateCardText(card), 'text/plain');
 }
 
 function generateCardText(card){
-  const ops = card.operations.map((op, i) => {
-    const n = state.norms.find(x => x.id === op.normativeId);
-    return n ? `${i+1}. ${n.operationCode} | ${n.operationName} | ${n.normValue} × ${op.quantity} = ${n.normValue*op.quantity} чел-час${n.tm?' | ТМ: '+n.tm:''}` : '';
+  const ops = card.operations.map((op,i)=>{
+    const n = allNorms().find(x=>x.id===op.normativeId);
+    return n?`${i+1}. ${n.operationCode} | ${n.operationName} | ${n.normValue} × ${op.quantity} = ${n.normValue*op.quantity} чел-час${n.tm?' | ТМ: '+n.tm:''}`:'';
   }).filter(Boolean).join('\n');
-  return `ТЕХНОЛОГИЧЕСКАЯ КАРТА\n${card.cardNumber}\nОборудование: ${card.equipmentName}\n${card.tm?'ТМ: '+card.tm+'\n':''}Тип ремонта: ${REPAIR_NAMES[card.repairType]}\nДата: ${new Date(card.createdAt).toLocaleDateString('ru-RU')}\nАвтор: ${card.author||'—'}\n\n${ops}\n\nИТОГО: ${card.totalHours} чел-час\nДней: ${card.calendarDays}`;
+  return `ТЕХНОЛОГИЧЕСКАЯ КАРТА\n${card.cardNumber}\nОборудование: ${card.equipmentName}\n${card.tm?'ТМ: '+card.tm+'\n':''}Тип ремонта: ${REPAIR_NAMES[card.repairType]}\nДата: ${new Date(card.createdAt).toLocaleDateString('ru-RU')}\n\n${ops}\n\nИТОГО: ${card.totalHours} чел-час`;
 }
 
 function printCard(card){
   if(!card) return;
-  const rows = card.operations.map((op, i) => {
-    const n = state.norms.find(x => x.id === op.normativeId);
-    if(!n) return '';
-    return `<tr><td style="border:1px solid #333;padding:5px;text-align:center">${i+1}</td><td style="border:1px solid #333;padding:5px;font-family:monospace;font-size:10px">${n.operationCode}</td><td style="border:1px solid #333;padding:5px">${n.operationName}</td><td style="border:1px solid #333;padding:5px;font-family:monospace;font-size:9px">${n.tm||'—'}</td><td style="border:1px solid #333;padding:5px;text-align:center">${n.normValue}</td><td style="border:1px solid #333;padding:5px;text-align:center">${n.unit}</td><td style="border:1px solid #333;padding:5px;text-align:center">${op.quantity}</td><td style="border:1px solid #333;padding:5px;text-align:center;font-weight:bold">${n.normValue*op.quantity}</td><td style="border:1px solid #333;padding:5px;text-align:center">${n.teamSize}</td><td style="border:1px solid #333;padding:5px;font-size:10px">${n.qualification||'—'}</td></tr>`;
+  const rows = card.operations.map((op,i)=>{
+    const n = allNorms().find(x=>x.id===op.normativeId); if(!n) return '';
+    return `<tr><td>${i+1}</td><td>${n.operationCode}</td><td>${n.operationName}</td><td>${n.tm||'—'}</td><td>${n.normValue}</td><td>${n.unit}</td><td>${op.quantity}</td><td>${n.normValue*op.quantity}</td><td>${n.teamSize}</td><td>${n.qualification}</td></tr>`;
   }).filter(Boolean).join('');
-  const w = window.open('', '_blank');
-  if(!w) return;
-  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>ТК ${card.cardNumber}</title><style>@page{size:A4 landscape;margin:12mm}body{font-family:Arial,sans-serif;font-size:10pt}.header{text-align:center;margin-bottom:16px;border-bottom:2px solid #000;padding-bottom:8px}.header h1{font-size:15pt;margin:0}.header h2{font-size:12pt;margin:4px 0 0;font-weight:normal}table{width:100%;border-collapse:collapse;margin:12px 0;font-size:9.5pt}th{background:#e5e7eb;border:1px solid #333;padding:5px;font-weight:bold;text-align:center}.total-row{background:#f3f4f6;font-weight:bold}.signatures{display:flex;justify-content:space-between;margin-top:36px}.signature{width:45%}.signature-line{border-bottom:1px solid #000;margin-top:28px;padding-top:4px;font-size:8pt}.no-print{text-align:center;margin-bottom:16px}.no-print button{padding:8px 16px;font-size:13px;cursor:pointer;border:none;border-radius:5px;margin:0 4px}@media print{.no-print{display:none}}</style></head><body><div class="no-print"><button onclick="window.print()" style="background:#16a34a;color:white">🖨 Печать</button><button onclick="window.close()" style="background:#6b7280;color:white">Закрыть</button></div><div class="header"><h1>ТЕХНОЛОГИЧЕСКАЯ КАРТА</h1><h2>${card.cardNumber}</h2></div><div style="margin:12px 0"><div><strong>Оборудование:</strong> ${card.equipmentName}</div>${card.tm?`<div><strong>ТМ:</strong> ${card.tm}</div>`:''}<div><strong>Тип:</strong> ${REPAIR_NAMES[card.repairType]}</div><div><strong>Дата:</strong> ${new Date(card.createdAt).toLocaleDateString('ru-RU')}</div><div><strong>Автор:</strong> ${card.author||'—'}</div></div><table><thead><tr><th>№</th><th>Код</th><th>Операция</th><th>ТМ</th><th>Норма</th><th>Ед.</th><th>Кол-во</th><th>Итого</th><th>Бриг.</th><th>Разряд</th></tr></thead><tbody>${rows}</tbody><tfoot><tr class="total-row"><td colspan="7" style="text-align:right;border:1px solid #333;padding:7px">ИТОГО:</td><td style="text-align:center;border:1px solid #333;padding:7px;font-size:11pt">${card.totalHours} чел-час</td><td colspan="2" style="text-align:center;border:1px solid #333;padding:7px">Дней: ${card.calendarDays}</td></tr></tfoot></table><div class="signatures"><div class="signature"><div class="signature-line">Разработал (инженер)</div></div><div class="signature"><div class="signature-line">Согласовал (начальник участка)</div></div></div><div class="signatures" style="margin-top:16px"><div class="signature"><div class="signature-line">Утвердил (начальник цеха)</div></div><div class="signature"><div class="signature-line">Дата утверждения</div></div></div></body></html>`);
+  const w = window.open('','_blank'); if(!w) return;
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:Arial;font-size:10pt}table{width:100%;border-collapse:collapse}th,td{border:1px solid #333;padding:5px}</style></head><body><h1>ТЕХНОЛОГИЧЕСКАЯ КАРТА</h1><h2>${card.cardNumber}</h2><p>Оборудование: ${card.equipmentName}</p><table><thead><tr><th>№</th><th>Код</th><th>Операция</th><th>ТМ</th><th>Норма</th><th>Ед.</th><th>Кол-во</th><th>Итого</th><th>Бриг.</th><th>Разряд</th></tr></thead><tbody>${rows}</tbody></table><p><b>ИТОГО: ${card.totalHours} чел-час</b></p><button onclick="window.print()">🖨 Печать</button></body></html>`);
   w.document.close();
 }
 
+function escapeHtml(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 function downloadFile(name, content, type){
-  const b = new Blob([content], {type: type+';charset=utf-8;'});
+  const b = new Blob([content], {type:type+';charset=utf-8;'});
   const u = URL.createObjectURL(b);
   const a = document.createElement('a');
-  a.href = u; a.download = name; a.click();
+  a.href=u; a.download=name; a.click();
   URL.revokeObjectURL(u);
 }
-
 function exportCsv(){
-  if(!state.calc.length){ alert('Калькулятор пуст'); return; }
+  if(!state.calc.length){alert('Калькулятор пуст');return;}
   const h = ['Код','Операция','ТМ','Участок','Оборудование','Норматив','Кол-во','Итого','Бригада','Источник'];
-  const rows = state.calc.map(i => [i.norm.operationCode, i.norm.operationName, i.norm.tm||'', SECTION_NAMES[i.norm.section]||'', `${i.norm.equipmentType} (${i.norm.equipmentUnit})`, i.norm.normValue, i.qty, i.norm.normValue*i.qty, i.norm.teamSize, i.norm.sourceCode]);
-  const csv = [h, ...rows].map(r => r.join(';')).join('\n');
+  const rows = state.calc.map(i=>[i.norm.operationCode, i.norm.operationName, i.norm.tm||'', SECTION_NAMES[i.norm.section]||'', `${i.norm.equipmentType} (${i.norm.equipmentUnit})`, i.norm.normValue, i.qty, i.norm.normValue*i.qty, i.norm.teamSize, i.norm.sourceCode]);
+  const csv = [h,...rows].map(r=>r.join(';')).join('\n');
   downloadFile(`расчёт_${new Date().toISOString().slice(0,10)}.csv`, '\uFEFF'+csv, 'text/csv');
 }
 
-/* ═══════════════════════════════════════════════════════════
-   TABS MAP
-   ═══════════════════════════════════════════════════════════ */
 const TABS = {
-  normatives: tabNormatives,
-  calculator: tabCalculator,
-  cards: tabCards,
-  statistics: tabStatistics,
-  add: tabAdd,
-  addEquip: tabAddEquip,
-  equipment: tabEquipment,
-  about: tabAbout,
-  settings: tabSettings,
-  users: tabUsers
+  normatives:tabNormatives, calculator:tabCalculator, cards:tabCards,
+  statistics:tabStatistics, add:tabAdd, addEquip:tabAddEquip,
+  equipment:tabEquipment, about:tabAbout,
+  settings:tabSettings, users:tabUsers
 };
 
-/* ═══════════════════════════════════════════════════════════
-   ИНИЦИАЛИЗАЦИЯ
-   ═══════════════════════════════════════════════════════════ */
-document.getElementById('loginForm').onsubmit = async e => {
+document.getElementById('loginForm').onsubmit = async e=>{
   e.preventDefault();
-  const btn = document.getElementById('loginBtn');
   const login = document.getElementById('loginInput').value.trim();
   const pwd = document.getElementById('passwordInput').value;
-  btn.disabled = true; btn.textContent = '⏳ Вход...';
-  const r = await API.login(login, pwd);
-  btn.disabled = false; btn.textContent = '🔐 Войти в систему';
-  if(r.ok){
-    await loadAll();
-    showApp();
+  const ok = await tryLogin(login, pwd);
+  if(ok){ 
+    showApp(); 
   } else {
     const err = document.getElementById('loginError');
-    err.textContent = r.msg || 'Неверный логин или пароль';
     err.classList.add('show');
-    document.getElementById('passwordInput').value = '';
-    setTimeout(() => err.classList.remove('show'), 3000);
+    document.getElementById('passwordInput').value='';
+    setTimeout(()=>err.classList.remove('show'), 2500);
   }
 };
 
-document.querySelectorAll('.login-account').forEach(el => {
-  el.onclick = () => {
-    document.getElementById('loginInput').value = el.dataset.login;
-    document.getElementById('passwordInput').value = el.dataset.pwd;
-    document.getElementById('loginError').classList.remove('show');
-  };
-});
-
-// Автовосстановление сессии при наличии токена
-(async () => {
-  if(API.token){
-    const r = await API.me();
-    if(r.ok){
-      await loadAll();
-      showApp();
-      return;
-    }
+(async ()=>{
+  try{ 
+    await migratePasswords(); 
+  }catch(e){ 
+    console.error(e); 
   }
-  showLogin();
+  if(restoreSession()){ 
+    showApp(); 
+  } else { 
+    showLogin(); 
+  }
 })();
+
+// ═══ АВТОСОХРАНЕНИЕ КАЛЬКУЛЯТОРА ═══
+setInterval(() => {
+  if (state.calc && state.calc.length >= 0) {
+    localStorage.setItem('esp_autosave_calc', JSON.stringify(state.calc));
+  }
+}, 30000);
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    // Регистрируем с относительным путем и scope для GitHub Pages
+    navigator.serviceWorker.register('./sw.js', { scope: './' })
+      .then((registration) => {
+        console.log('[PWA] Service Worker зарегистрирован:', registration.scope);
+      })
+      .catch((error) => {
+        console.warn('[PWA] Ошибка регистрации Service Worker:', error);
+      });
+  });
+}
 </script>
 </body>
 </html>
